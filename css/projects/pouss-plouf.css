@@ -1,0 +1,2275 @@
+/* Pouss'Plouf ! — CSS spécifique à la page projet.
+   Dépend des variables définies dans css/style.css.
+   Les points de rupture responsive sont regroupés en fin de fichier. */
+
+/* =========================================
+   01 — VARIABLES ET CONTENEURS
+========================================= */
+
+.project-page {
+    --pp-accent: var(--lavender);
+    --pp-border: rgba(187, 165, 216, 0.2);
+    --pp-panel: rgba(17, 17, 22, 0.85);
+    width: 100%;
+    min-height: 100vh;
+}
+
+.pp-container {
+    width: min(100% - 100px, 1300px);
+    margin: 0 auto;
+}
+
+/* =========================================
+   02 — NAVIGATION ET SIDEBAR
+========================================= */
+
+.pp-navbar {
+    padding-left: 8%;
+    padding-right: 8%;
+}
+
+.pp-nav-links {
+    align-items: center;
+}
+
+.pp-nav-links .pp-current {
+    color: var(--lavender);
+    font-weight: 700;
+}
+
+.pp-nav-links a {
+    position: relative;
+}
+
+.pp-nav-links a::after {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--lavender);
+    transition: width 0.3s ease;
+}
+
+.pp-nav-links a:hover::after,
+.pp-nav-links .pp-current::after {
+    width: 100%;
+}
+
+.pp-sidebar {
+    left: 28px;
+    gap: 20px;
+}
+
+.pp-sidebar .scroll-link.active .scroll-label {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.pp-sidebar .scroll-link.active .scroll-number {
+    background: var(--purple);
+    border-color: var(--lavender);
+}
+
+/* =========================================
+   03 — HERO ET MÉDIAS
+========================================= */
+
+.pp-hero {
+    min-height: calc(100vh - 50px);
+    padding: 105px 0 65px;
+}
+
+.pp-hero-heading {
+    max-width: 1000px;
+    margin-bottom: 55px;
+}
+
+.pp-hero-heading .eyebrow {
+    margin-bottom: 25px;
+}
+
+.pp-hero h1 {
+    font-size: clamp(65px, 9vw, 135px);
+    letter-spacing: -6px;
+    line-height: 1;
+    margin-bottom: 30px;
+}
+
+.pp-hero-subtitle {
+    max-width: 850px;
+    font-size: clamp(18px, 2vw, 25px);
+    line-height: 1.6;
+    color: var(--ivory);
+}
+
+.pp-hero-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 35px;
+}
+
+.pp-hero-tags span {
+    padding: 9px 16px;
+    background: rgba(187, 165, 216, 0.08);
+    border: 1px solid var(--pp-border);
+    border-radius: 4px;
+    color: var(--lavender);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.pp-hero-media {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--surface);
+    border: 1px solid var(--pp-border);
+    position: relative;
+}
+
+.pp-hero-media video,
+.pp-hero-media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.pp-media-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    background: radial-gradient( circle at center, rgba(36, 23, 115, 0.45), transparent 65% ), #15131c;
+}
+
+.pp-media-placeholder span {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(28px, 5vw, 65px);
+    font-weight: 700;
+    color: var(--ivory);
+    letter-spacing: -2px;
+}
+
+.pp-media-placeholder p {
+    font-size: 13px;
+    letter-spacing: 3px;
+    color: var(--muted);
+    text-transform: uppercase;
+}
+
+/* =========================================
+   04 — INFORMATIONS DU PROJET
+========================================= */
+
+.pp-hero-details {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 30px;
+    margin-top: 45px;
+    padding: 35px 0;
+    border-top: 1px solid var(--pp-border);
+    border-bottom: 1px solid var(--pp-border);
+}
+
+.pp-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.pp-detail-label {
+    color: var(--lavender);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.pp-detail strong {
+    font-size: 16px;
+    line-height: 1.5;
+    font-weight: 600;
+}
+
+.pp-scroll-next {
+    display: inline-flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 35px;
+    padding-bottom: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ivory);
+    border-bottom: 1px solid var(--lavender);
+    transition: color 0.3s ease;
+}
+
+.pp-scroll-next span {
+    font-size: 22px;
+    color: var(--lavender);
+}
+
+.pp-scroll-next:hover {
+    color: var(--lavender);
+}
+
+/* =========================================
+   05 — STYLES COMMUNS DES SECTIONS
+========================================= */
+
+.pp-section {
+    min-height: 450px;
+    padding: 110px 0;
+    scroll-margin-top: 70px;
+    border-top: 1px solid var(--pp-border);
+}
+
+.pp-section-title {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(32px, 4vw, 52px);
+    margin-bottom: 25px;
+}
+
+.pp-section-description {
+    max-width: 850px;
+    color: var(--muted);
+    font-size: 17px;
+    line-height: 1.8;
+}
+
+.pp-media {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--surface);
+    border: 1px solid var(--pp-border);
+}
+
+.pp-media img,
+.pp-media video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* =========================================
+   06 — CONTEXTE, ARCHITECTURE ET ÉQUIPE
+========================================= */
+
+.pp-section-heading {
+    max-width: 900px;
+    margin-bottom: 85px;
+}
+
+.pp-section-heading .eyebrow {
+    margin-bottom: 20px;
+}
+
+.pp-content-index {
+    display: inline-block;
+    color: var(--lavender);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+}
+
+.pp-context-content h3,
+.pp-architecture-heading h3,
+.pp-production-heading h3 {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(27px, 3vw, 40px);
+    line-height: 1.2;
+    margin-bottom: 25px;
+}
+
+.pp-context-content p,
+.pp-architecture-heading p,
+.pp-production-heading p,
+.pp-role-panel p {
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.85;
+    margin-bottom: 18px;
+}
+
+.pp-image-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    background: rgba(27, 25, 34, 0.85);
+    border: 1px solid rgba(187, 165, 216, 0.2);
+}
+
+.pp-image-placeholder span {
+    color: var(--lavender);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.pp-image-placeholder p {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.pp-context-visual figcaption,
+.pp-architecture-visual figcaption {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.6;
+    margin-top: 15px;
+}
+
+.pp-architecture {
+    margin-bottom: 130px;
+}
+
+.pp-architecture-heading {
+    max-width: 800px;
+    margin-bottom: 45px;
+}
+
+.pp-architecture-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    margin-bottom: 45px;
+}
+
+.pp-architecture-card {
+    padding: 35px;
+    background: rgba(17, 17, 22, 0.85);
+    border: 1px solid rgba(187, 165, 216, 0.2);
+    transition: border-color 0.3s ease;
+}
+
+.pp-architecture-card:hover {
+    border-color: var(--lavender);
+}
+
+.pp-card-number {
+    display: block;
+    color: var(--lavender);
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
+.pp-architecture-card h4 {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 21px;
+    margin-bottom: 18px;
+}
+
+.pp-architecture-card p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.pp-architecture-visual .pp-image-placeholder {
+    aspect-ratio: 16 / 7;
+}
+
+.pp-production-heading {
+    max-width: 850px;
+    margin-bottom: 45px;
+}
+
+.pp-production-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+    margin-bottom: 55px;
+}
+
+.pp-production-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 30px;
+    border-top: 2px solid var(--lavender);
+    background: rgba(27, 25, 34, 0.65);
+}
+
+.pp-production-stat strong {
+    color: var(--ivory);
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 45px;
+    line-height: 1;
+}
+
+.pp-production-stat span {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.pp-role-panel h4 {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(24px, 2.5vw, 32px);
+    line-height: 1.3;
+}
+
+.pp-role-panel p {
+    margin: 0;
+}
+
+.pp-inline-link {
+    grid-column: 2;
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--ivory);
+    font-size: 14px;
+    font-weight: 600;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--lavender);
+}
+
+.pp-inline-link span {
+    color: var(--lavender);
+}
+
+.pp-inline-link:hover {
+    color: var(--lavender);
+}
+
+.pp-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: auto;
+    object-fit: contain;
+    border: 1px solid var(--pp-border);
+}
+
+.pp-context-visual,
+.pp-architecture-visual {
+    width: 100%;
+    max-width: 850px;
+    margin: 0 auto;
+}
+
+.pp-context-visual .pp-image,
+.pp-architecture-visual .pp-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 480px;
+    aspect-ratio: auto;
+    object-fit: contain;
+}
+
+.pp-role-panel {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    column-gap: 65px;
+    row-gap: 25px;
+    padding: 45px;
+    background: rgba(17, 17, 22, 0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(187, 165, 216, 0.2);
+    border-left: 3px solid var(--lavender);
+    border-radius: 4px;
+}
+
+.pp-context-grid {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    align-items: center;
+    gap: 65px;
+    margin-bottom: 130px;
+    padding: 45px;
+    background: rgba(17, 17, 22, 0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(187, 165, 216, 0.2);
+    border-left: 3px solid var(--lavender);
+    border-radius: 4px;
+}
+
+.pp-context-content,
+.pp-context-visual {
+    min-width: 0;
+}
+
+.pp-hero-media video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* =========================================
+   07 — GAMEPLAY
+========================================= */
+
+.pp-gameplay-media {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto 50px;
+}
+
+.pp-gameplay-media img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    background: var(--surface);
+    border: 1px solid var(--pp-border);
+}
+
+.pp-gameplay-media figcaption {
+    margin-top: 14px;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.pp-gameplay-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 110px;
+}
+
+.pp-gameplay-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 30px;
+    background: rgba(17, 17, 22, 0.88);
+    border: 1px solid var(--pp-border);
+    border-top: 2px solid var(--lavender);
+    backdrop-filter: blur(12px);
+}
+
+.pp-gameplay-stat strong {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(30px, 3.5vw, 48px);
+    line-height: 1.1;
+}
+
+.pp-gameplay-stat span {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.pp-gameplay-block {
+    margin-bottom: 120px;
+}
+
+.pp-gameplay-block-heading {
+    max-width: 850px;
+    margin-bottom: 45px;
+}
+
+.pp-gameplay-block-heading h3,
+.pp-gameplay-design h3,
+.pp-gameplay-transition h3 {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(26px, 3vw, 40px);
+    line-height: 1.25;
+    margin-bottom: 22px;
+}
+
+.pp-gameplay-block-heading p,
+.pp-gameplay-transition p {
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+.pp-gameplay-loop {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.pp-loop-card {
+    padding: 30px;
+    background: rgba(17, 17, 22, 0.88);
+    border: 1px solid var(--pp-border);
+    border-left: 2px solid var(--lavender);
+    backdrop-filter: blur(12px);
+}
+
+.pp-loop-card > span {
+    display: block;
+    margin-bottom: 35px;
+    color: var(--lavender);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.pp-loop-card h4 {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 21px;
+    margin-bottom: 15px;
+}
+
+.pp-loop-card p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.75;
+}
+
+.pp-gameplay-result {
+    margin-top: 25px;
+    padding: 22px 30px;
+    background: rgba(36, 23, 115, 0.18);
+    border-left: 3px solid var(--lavender);
+    font-size: 16px;
+    line-height: 1.7;
+    font-weight: 600;
+}
+
+.pp-gameplay-design {
+    margin-bottom: 120px;
+}
+
+.pp-gameplay-design h3 {
+    margin-bottom: 40px;
+}
+
+.pp-design-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.pp-design-card {
+    padding: 38px;
+    background: rgba(17, 17, 22, 0.88);
+    border: 1px solid var(--pp-border);
+    backdrop-filter: blur(12px);
+    transition: border-color 0.3s ease;
+}
+
+.pp-design-card:hover {
+    border-color: var(--lavender);
+}
+
+.pp-design-card h4 {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 23px;
+    margin-bottom: 18px;
+}
+
+.pp-design-card p {
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.85;
+}
+
+.pp-gameplay-transition {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 65px;
+    padding: 45px;
+    background: rgba(17, 17, 22, 0.88);
+    border: 1px solid var(--pp-border);
+    border-left: 3px solid var(--lavender);
+    backdrop-filter: blur(12px);
+}
+
+.pp-gameplay-transition .pp-inline-link {
+    display: inline-flex;
+    margin-top: 25px;
+}
+
+/* =========================================
+   08 — DÉVELOPPEMENT TECHNIQUE
+========================================= */
+
+.pp-tech-case {
+    margin-bottom: 115px;
+    padding: 45px;
+    background: rgba(17, 17, 22, 0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--pp-border);
+    border-left: 3px solid var(--lavender);
+    border-radius: 4px;
+}
+
+.pp-tech-heading {
+    max-width: 900px;
+    margin-bottom: 45px;
+}
+
+.pp-tech-heading h3 {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(27px, 3vw, 40px);
+    line-height: 1.25;
+    margin-bottom: 20px;
+}
+
+.pp-tech-heading p {
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+.pp-tech-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: 50px;
+    align-items: center;
+}
+
+.pp-tech-grid--reverse {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+}
+
+.pp-tech-grid--reverse .pp-tech-content {
+    order: 2;
+}
+
+.pp-tech-grid--reverse .pp-tech-figure {
+    order: 1;
+}
+
+.pp-tech-content,
+.pp-tech-figure {
+    min-width: 0;
+}
+
+.pp-tech-content h4 {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 20px;
+    line-height: 1.4;
+    margin: 0 0 15px;
+}
+
+.pp-tech-content h4:not(:first-child) {
+    margin-top: 30px;
+}
+
+.pp-tech-content p {
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.85;
+    margin-bottom: 17px;
+}
+
+.pp-tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+.pp-tech-tags span {
+    padding: 8px 13px;
+    color: var(--lavender);
+    background: rgba(187, 165, 216, 0.08);
+    border: 1px solid var(--pp-border);
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.pp-tech-figure {
+    margin: 0;
+}
+
+.pp-tech-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    width: 100%;
+    min-height: 340px;
+    padding: 30px;
+    text-align: center;
+    background: #14121b;
+    border: 1px dashed rgba(187, 165, 216, 0.3);
+}
+
+.pp-tech-placeholder span {
+    color: var(--lavender);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.pp-tech-placeholder p {
+    color: var(--ivory);
+    font-size: 15px;
+}
+
+.pp-tech-placeholder small {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.pp-tech-figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    border: 1px solid var(--pp-border);
+}
+
+.pp-tech-figure figcaption {
+    margin-top: 14px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.pp-tech-note {
+    display: grid;
+    grid-template-columns: 0.35fr 1fr;
+    gap: 30px;
+    margin-top: 40px;
+    padding: 25px 30px;
+    background: rgba(36, 23, 115, 0.15);
+    border-left: 2px solid var(--lavender);
+}
+
+.pp-tech-note strong {
+    color: var(--ivory);
+    font-size: 14px;
+}
+
+.pp-tech-note p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.75;
+}
+
+.pp-tech-footer {
+    max-width: 900px;
+    padding: 45px;
+    background: rgba(17, 17, 22, 0.88);
+    border: 1px solid var(--pp-border);
+    border-left: 3px solid var(--lavender);
+    backdrop-filter: blur(12px);
+}
+
+.pp-tech-footer h3 {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(26px, 3vw, 38px);
+    line-height: 1.3;
+    margin-bottom: 20px;
+}
+
+.pp-tech-footer p {
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.8;
+    margin-bottom: 25px;
+}
+
+.pp-tech-next {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--ivory);
+    font-size: 14px;
+    font-weight: 600;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--lavender);
+}
+
+.pp-tech-next span,
+.pp-tech-next:hover {
+    color: var(--lavender);
+}
+
+/* =========================================
+   09 — ÉTUDES DE CAS BLUEPRINT
+========================================= */
+
+.pp-deep-case {
+    padding: clamp(25px, 4vw, 60px);
+}
+
+.pp-deep-header {
+    max-width: 950px;
+    margin-bottom: 55px;
+}
+
+.pp-deep-header h3 {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(30px, 3.5vw, 45px);
+    line-height: 1.2;
+    margin-bottom: 25px;
+}
+
+.pp-deep-header p {
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.85;
+    margin-bottom: 18px;
+}
+
+.pp-deep-objectives {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 35px;
+    padding: 35px;
+    margin-bottom: 75px;
+    background: rgba(36, 23, 115, 0.15);
+    border-left: 3px solid var(--lavender);
+}
+
+.pp-deep-label {
+    display: block;
+    color: var(--lavender);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+}
+
+.pp-deep-objectives p {
+    color: var(--ivory);
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+.pp-deep-step {
+    padding: 65px 0;
+    border-top: 1px solid var(--pp-border);
+}
+
+.pp-deep-step--last {
+    padding-bottom: 0;
+}
+
+.pp-deep-step-heading {
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+    margin-bottom: 35px;
+}
+
+.pp-deep-number {
+    flex-shrink: 0;
+    color: var(--lavender);
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 33px;
+    font-weight: 700;
+}
+
+.pp-deep-step-heading h4 {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(24px, 2.8vw, 35px);
+    line-height: 1.3;
+}
+
+.pp-deep-explanation {
+    max-width: 1000px;
+    margin-bottom: 35px;
+}
+
+.pp-deep-explanation p {
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.9;
+    margin-bottom: 19px;
+}
+
+.pp-deep-explanation code {
+    color: var(--lavender);
+    background: rgba(187, 165, 216, 0.08);
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-size: 0.92em;
+}
+
+.pp-deep-formula {
+    margin: 35px 0;
+    padding: 25px 30px;
+    background: #0e0e13;
+    border: 1px solid var(--pp-border);
+}
+
+.pp-deep-formula code {
+    display: block;
+    color: var(--ivory);
+    font-size: 14px;
+    line-height: 1.8;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+}
+
+.pp-deep-values {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto 1fr 1fr;
+    gap: 15px;
+    align-items: center;
+    margin: 35px 0;
+}
+
+.pp-deep-values > div:not(.pp-deep-values-separator) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 20px 10px;
+    background: rgba(36, 23, 115, 0.15);
+    border: 1px solid var(--pp-border);
+}
+
+.pp-deep-values span {
+    color: var(--ivory);
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 27px;
+    font-weight: 700;
+}
+
+.pp-deep-values small {
+    color: var(--muted);
+    font-size: 11px;
+    text-align: center;
+}
+
+.pp-deep-values-separator span {
+    color: var(--lavender);
+}
+
+.pp-deep-figure {
+    width: 100%;
+    margin: 45px 0;
+}
+
+.pp-deep-image-link {
+    display: block;
+    width: 100%;
+    cursor: zoom-in;
+}
+
+.pp-deep-figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    background: #171719;
+    border: 1px solid var(--pp-border);
+}
+
+.pp-deep-figure figcaption {
+    margin-top: 15px;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.pp-deep-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    min-height: 290px;
+    padding: 30px;
+    text-align: center;
+    background: #171719;
+    border: 1px dashed rgba(187, 165, 216, 0.35);
+}
+
+.pp-deep-placeholder strong {
+    color: var(--lavender);
+    font-size: 13px;
+    letter-spacing: 2px;
+}
+
+.pp-deep-placeholder p {
+    color: var(--ivory);
+    font-size: 15px;
+}
+
+.pp-deep-placeholder small {
+    color: var(--muted);
+    font-size: 12px;
+    overflow-wrap: anywhere;
+}
+
+.pp-deep-analysis {
+    margin-top: 35px;
+    padding: 28px 32px;
+    background: rgba(36, 23, 115, 0.14);
+    border-left: 2px solid var(--lavender);
+}
+
+.pp-deep-analysis strong {
+    display: block;
+    margin-bottom: 12px;
+    color: var(--ivory);
+    font-size: 15px;
+}
+
+.pp-deep-analysis p {
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.85;
+    margin-bottom: 12px;
+}
+
+.pp-deep-analysis p:last-child {
+    margin-bottom: 0;
+}
+
+.pp-deep-conclusion {
+    margin-top: 30px;
+    padding: 40px;
+    background: rgba(36, 23, 115, 0.20);
+    border: 1px solid var(--pp-border);
+}
+
+.pp-deep-conclusion h4 {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 26px;
+    margin-bottom: 20px;
+}
+
+.pp-deep-conclusion p {
+    max-width: 850px;
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.85;
+    margin-bottom: 25px;
+}
+
+/* =========================================
+   10 — DEUX BLUEPRINTS DE DÉCÉLÉRATION
+========================================= */
+
+.pp-deep-step > .pp-deep-figure {
+    margin: 45px 0 65px;
+}
+
+.pp-deep-figure .pp-blueprint-title {
+    display: block;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.4;
+    color: var(--ivory);
+    margin: 0 0 20px;
+}
+
+.pp-deep-figure .pp-blueprint-description {
+    display: block;
+    max-width: 950px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.85;
+    color: var(--muted);
+    margin: 0 0 35px;
+}
+
+.pp-deep-figure .pp-deep-image-link {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.pp-deep-figure + .pp-deep-figure {
+    padding-top: 40px;
+    border-top: 1px solid var(--pp-border);
+}
+
+
+.pp-deep-image-link {
+    display: block;
+    width: 100%;
+    cursor: zoom-in;
+}
+
+.pp-deep-figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    border: 1px solid var(--pp-border);
+}
+/* Grille des 4 blocs */
+.pp-collision-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem;
+    align-items: stretch;
+}
+
+/* Chaque rectangle */
+.pp-collision-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 420px; /* ajuste si tu veux plus grand ou plus petit */
+    padding: 1.5rem;
+    background: rgba(8, 8, 20, 0.78);
+    border: 1px solid rgba(180, 150, 255, 0.18);
+    box-sizing: border-box;
+}
+
+    /* Zone image */
+    .pp-collision-card .pp-card-image {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        overflow: hidden;
+        border: 1px solid rgba(180, 150, 255, 0.12);
+        margin-bottom: 1rem;
+        background: rgba(255,255,255,0.03);
+    }
+
+        /* Image */
+        .pp-collision-card .pp-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* pour ne pas crop */
+            display: block;
+        }
+
+    /* Titre */
+    .pp-collision-card h4 {
+        margin: 0 0 1rem 0;
+    }
+
+    /* Texte/caption poussé en bas si besoin */
+    .pp-collision-card p,
+    .pp-collision-card figcaption {
+        margin-top: auto;
+    }
+
+/* =========================================================
+   SECTION 06 — DOCUMENTATION TECHNIQUE
+   Coller à la fin de css/projects/pouss-plouf.css
+   Toutes les règles sont limitées à #documentation.
+========================================================== */
+
+#documentation .pp-doc-list {
+    display: grid;
+    gap: 32px;
+}
+
+#documentation .pp-doc-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(300px, .88fr);
+    align-items: center;
+    gap: clamp(26px, 4vw, 60px);
+    padding: clamp(24px, 4vw, 52px);
+    background: rgba(17, 17, 22, .88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--pp-border, rgba(190, 170, 220, .2));
+    border-left: 3px solid var(--lavender);
+    border-radius: 4px;
+}
+
+#documentation .pp-doc-content,
+#documentation .pp-doc-visual {
+    min-width: 0;
+}
+
+#documentation .pp-doc-kicker {
+    display: block;
+    margin-bottom: 16px;
+    color: var(--lavender);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+}
+
+#documentation .pp-doc-content h3 {
+    margin: 0 0 20px;
+    font-size: clamp(27px, 2.8vw, 38px);
+    line-height: 1.2;
+}
+
+#documentation .pp-doc-content > p,
+#documentation .pp-doc-archive-note p {
+    margin: 0 0 24px;
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.85;
+}
+
+#documentation .pp-doc-content h4 {
+    margin: 28px 0 14px;
+    font-size: 16px;
+}
+
+#documentation .pp-doc-topics {
+    margin: 0 0 30px;
+    padding: 0 0 0 20px;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+    #documentation .pp-doc-topics li {
+        margin-bottom: 8px;
+    }
+
+        #documentation .pp-doc-topics li::marker {
+            color: var(--lavender);
+        }
+
+#documentation .pp-doc-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+#documentation .pp-doc-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    min-height: 44px;
+    padding: 12px 16px;
+    border: 1px solid var(--lavender);
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background .25s ease, border-color .25s ease;
+}
+
+#documentation .pp-doc-link--primary {
+    background: rgba(162, 129, 216, .15);
+    color: var(--ivory);
+}
+
+#documentation .pp-doc-link--secondary {
+    background: transparent;
+    color: var(--lavender);
+    border-color: var(--pp-border, rgba(190, 170, 220, .3));
+}
+
+#documentation .pp-doc-link:hover {
+    background: rgba(162, 129, 216, .27);
+}
+
+#documentation .pp-doc-link:focus-visible {
+    outline: 2px solid var(--lavender);
+    outline-offset: 4px;
+}
+
+#documentation .pp-doc-visual {
+    margin: 0;
+    position: relative;
+}
+
+    #documentation .pp-doc-visual a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        max-height: 470px;
+        padding: 16px;
+        background: rgba(8, 8, 13, .65);
+        border: 1px solid var(--pp-border, rgba(190, 170, 220, .2));
+        text-decoration: none;
+    }
+
+    #documentation .pp-doc-visual img {
+        display: block;
+        width: auto;
+        max-width: 100%;
+        max-height: 430px;
+        height: auto;
+        object-fit: contain;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, .3);
+        transition: transform .35s ease;
+    }
+
+@media (hover: hover) and (pointer: fine) {
+    #documentation .pp-doc-visual:hover {
+        z-index: 5;
+    }
+
+    #documentation .pp-doc-visual img:hover {
+        transform: scale(1.05);
+    }
+}
+
+#documentation .pp-doc-visual figcaption {
+    margin-top: 14px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+#documentation .pp-doc-archive-note {
+    margin-top: 36px;
+    padding: 26px 30px;
+    background: rgba(36, 23, 115, .15);
+    border-left: 2px solid var(--lavender);
+}
+
+    #documentation .pp-doc-archive-note .pp-doc-kicker {
+        margin-bottom: 9px;
+    }
+
+    #documentation .pp-doc-archive-note p {
+        max-width: 950px;
+        margin-bottom: 0;
+    }
+
+@media (max-width: 900px) {
+    #documentation .pp-doc-card {
+        grid-template-columns: 1fr;
+    }
+
+    #documentation .pp-doc-visual a {
+        max-height: 450px;
+    }
+
+    #documentation .pp-doc-visual img {
+        max-height: 410px;
+    }
+}
+
+@media (max-width: 650px) {
+    #documentation .pp-doc-card {
+        padding: 24px;
+    }
+
+    #documentation .pp-doc-archive-note {
+        padding: 24px;
+    }
+
+    #documentation .pp-doc-links {
+        flex-direction: column;
+    }
+
+    #documentation .pp-doc-link {
+        width: 100%;
+    }
+
+    #documentation .pp-doc-visual a {
+        max-height: 360px;
+    }
+
+    #documentation .pp-doc-visual img {
+        max-height: 310px;
+    }
+}
+
+/* =========================================
+   07 — GALERIE ET ÉVÉNEMENT
+========================================= */
+
+.pp-gallery .pp-section-heading {
+    margin-bottom: 70px;
+}
+
+
+/* =========================================
+   PANNEAUX
+========================================= */
+
+.pp-gallery-panel {
+    position: relative;
+    margin-bottom: 70px;
+    padding: clamp(24px, 4vw, 52px);
+    background: rgba(17, 17, 22, 0.88);
+    border: 1px solid var(--pp-border);
+    border-left: 3px solid var(--lavender);
+    border-radius: 4px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+    .pp-gallery-panel:last-child {
+        margin-bottom: 0;
+    }
+
+
+/* =========================================
+   TITRES
+========================================= */
+
+.pp-gallery-heading {
+    max-width: 950px;
+    margin-bottom: 34px;
+}
+
+    .pp-gallery-heading h3 {
+        font-family: 'Space Grotesk', sans-serif;
+        color: var(--ivory);
+        font-size: clamp(25px, 3vw, 39px);
+        line-height: 1.2;
+        margin: 0 0 20px;
+    }
+
+    .pp-gallery-heading p {
+        color: var(--muted);
+        font-size: 16px;
+        line-height: 1.85;
+        margin: 0 0 15px;
+    }
+
+        .pp-gallery-heading p:last-child {
+            margin-bottom: 0;
+        }
+
+
+/* =========================================
+   GRILLE DES IMAGES
+========================================= */
+
+.pp-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 24px;
+}
+
+
+/* =========================================
+   CARTES
+========================================= */
+
+.pp-gallery-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    margin: 0;
+    padding: 16px;
+    background: rgba(27, 25, 34, 0.82);
+    border: 1px solid var(--pp-border);
+    border-radius: 3px;
+}
+
+    .pp-gallery-card:hover {
+        z-index: 15;
+    }
+
+
+/* =========================================
+   IMAGES
+========================================= */
+
+.pp-gallery-image-link {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: rgba(8, 8, 13, 0.8);
+    border: 1px solid var(--pp-border);
+    cursor: zoom-in;
+    text-decoration: none;
+}
+
+    .pp-gallery-image-link img {
+        position: relative;
+        z-index: 1;
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        transition: transform 0.35s ease, box-shadow 0.35s ease;
+        transform-origin: center;
+    }
+
+
+/* =========================================
+   ZOOM AU SURVOL
+========================================= */
+
+@media (hover: hover) and (pointer: fine) {
+
+    .pp-gallery-image-link:hover img {
+        transform: scale(1.07);
+        z-index: 5;
+        box-shadow: 0 16px 42px rgba(0, 0, 0, 0.4);
+    }
+}
+
+
+/* =========================================
+   FAÇADE — GRAND FORMAT
+========================================= */
+
+.pp-gallery-image-link--wide {
+    aspect-ratio: auto;
+    min-height: 260px;
+}
+
+    .pp-gallery-image-link--wide img {
+        width: 100%;
+        height: auto;
+        max-height: 680px;
+        object-fit: contain;
+    }
+
+
+/* =========================================
+   MENU DES CRÉDITS
+========================================= */
+
+.pp-gallery-image-link--credits {
+    aspect-ratio: auto;
+    min-height: 260px;
+    padding: 10px;
+}
+
+    .pp-gallery-image-link--credits img {
+        width: 100%;
+        height: auto;
+        max-height: 850px;
+        object-fit: contain;
+    }
+
+
+/* =========================================
+   LÉGENDES
+========================================= */
+
+.pp-gallery-card figcaption {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin-top: 17px;
+    padding: 0 2px 2px;
+    line-height: 1.65;
+}
+
+    .pp-gallery-card figcaption strong {
+        color: var(--ivory);
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+    .pp-gallery-card figcaption span {
+        color: var(--muted);
+        font-size: 13px;
+    }
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 760px) {
+
+    .pp-gallery-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pp-gallery-panel {
+        margin-bottom: 45px;
+    }
+}
+
+@media (max-width: 650px) {
+
+    .pp-gallery .pp-section-heading {
+        margin-bottom: 40px;
+    }
+
+    .pp-gallery-panel {
+        padding: 22px;
+    }
+
+    .pp-gallery-card {
+        padding: 10px;
+    }
+
+    .pp-gallery-image-link--wide,
+    .pp-gallery-image-link--credits {
+        min-height: 160px;
+    }
+}
+
+
+/* =========================================
+   ACCESSIBILITÉ
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .pp-gallery-image-link img {
+        transition: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #documentation .pp-doc-visual img,
+    #documentation .pp-doc-link {
+        transition: none;
+    }
+}
+
+/* =========================================
+   SECTION 05 — ITÉRATIONS ET PLAYTESTS
+   Ajouter à la fin de pouss-plouf.css.
+   Règles limitées à #iterations.
+========================================= */
+
+#iterations .pp-iteration-case {
+    margin: 0 0 90px;
+    padding: clamp(24px, 4vw, 52px);
+    background: rgba(17, 17, 22, 0.88);
+    border: 1px solid var(--pp-border, rgba(190, 170, 220, .2));
+    border-left: 3px solid var(--lavender);
+    border-radius: 4px;
+    backdrop-filter: blur(12px);
+}
+
+#iterations .pp-iteration-header {
+    max-width: 950px;
+    margin-bottom: 42px;
+}
+
+    #iterations .pp-iteration-header h3 {
+        font-size: clamp(27px, 3vw, 39px);
+        line-height: 1.25;
+        margin: 14px 0 22px;
+    }
+
+    #iterations .pp-iteration-header p,
+    #iterations .pp-iteration-phase > p {
+        color: var(--muted);
+        font-size: 15px;
+        line-height: 1.85;
+        margin: 0 0 18px;
+    }
+
+#iterations .pp-iteration-phase {
+    padding: 36px 0;
+    border-top: 1px solid var(--pp-border, rgba(190, 170, 220, .2));
+}
+
+#iterations .pp-iteration-phase-number {
+    color: var(--lavender);
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 14px;
+}
+
+#iterations .pp-iteration-phase h4 {
+    font-size: clamp(23px, 2.4vw, 30px);
+    line-height: 1.35;
+    margin: 0 0 18px;
+}
+
+#iterations .pp-iteration-phase code {
+    font-size: .92em;
+    color: var(--lavender);
+}
+
+#iterations .pp-iteration-gallery {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: 24px;
+    margin: 28px 0;
+}
+
+#iterations .pp-iteration-gallery--single {
+    grid-template-columns: minmax(0, 1fr);
+}
+
+#iterations .pp-iteration-item {
+    min-width: 0;
+    margin: 0;
+    padding: 18px;
+    background: rgba(27, 25, 34, .86);
+    border: 1px solid var(--pp-border, rgba(190, 170, 220, .2));
+    position: relative;
+}
+
+    #iterations .pp-iteration-item h5 {
+        font-size: 16px;
+        margin: 0 0 15px;
+    }
+
+    #iterations .pp-iteration-item a {
+        display: block;
+        position: relative;
+    }
+
+    #iterations .pp-iteration-item img {
+        display: block;
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+        border: 1px solid var(--pp-border, rgba(190, 170, 220, .2));
+        transition: transform .35s ease, box-shadow .35s ease;
+        transform-origin: center;
+    }
+
+    #iterations .pp-iteration-item:hover {
+        z-index: 10;
+    }
+
+@media (hover: hover) and (pointer: fine) {
+    #iterations .pp-iteration-item img:hover {
+        transform: scale(1.08);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, .45);
+    }
+}
+
+#iterations .pp-iteration-item figcaption {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.65;
+    margin-top: 14px;
+}
+
+#iterations .pp-iteration-finding {
+    border-left: 2px solid var(--lavender);
+    background: rgba(36, 23, 115, .16);
+    padding: 18px 22px;
+    color: var(--ivory) !important;
+    margin: 26px 0 0 !important;
+}
+
+#iterations .pp-iteration-phase--final {
+    padding-bottom: 0;
+}
+
+#iterations .pp-playtest-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin: 32px 0 40px;
+}
+
+#iterations .pp-playtest-card {
+    min-width: 0;
+    padding: 24px;
+    background: rgba(27, 25, 34, .86);
+    border: 1px solid var(--pp-border, rgba(190, 170, 220, .2));
+}
+
+    #iterations .pp-playtest-card > span {
+        display: block;
+        color: var(--lavender);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        margin-bottom: 18px;
+    }
+
+    #iterations .pp-playtest-card h4 {
+        font-size: 19px;
+        margin-bottom: 13px;
+    }
+
+    #iterations .pp-playtest-card p {
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.8;
+    }
+
+#iterations .pp-playtest-conclusion {
+    padding: 30px;
+    background: rgba(36, 23, 115, .18);
+    border-left: 3px solid var(--lavender);
+}
+
+    #iterations .pp-playtest-conclusion h4 {
+        font-size: clamp(22px, 2.4vw, 29px);
+        margin: 18px 0;
+    }
+
+    #iterations .pp-playtest-conclusion p {
+        color: var(--muted);
+        line-height: 1.85;
+        margin: 0;
+    }
+
+
+@media (max-width: 950px) {
+    #iterations .pp-playtest-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 650px) {
+    #iterations .pp-iteration-gallery {
+        grid-template-columns: 1fr;
+    }
+
+    #iterations .pp-iteration-item {
+        padding: 14px;
+    }
+
+    #iterations .pp-iteration-case {
+        margin-bottom: 55px;
+    }
+
+    #iterations .pp-iteration-phase {
+        padding: 26px 0;
+    }
+
+    #iterations .pp-playtest-conclusion {
+        padding: 22px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #iterations .pp-iteration-item img {
+        transition: none;
+    }
+}
+
+
+/* =========================================
+   ZOOM AU SURVOL DES IMAGES
+========================================= */
+
+/* Animation de toutes les images */
+@media (hover: hover) and (pointer: fine) {
+
+    .project-page img {
+        position: relative;
+        transition: transform 0.35s ease, box-shadow 0.35s ease;
+        transform-origin: center;
+    }
+
+        /* Agrandissement au survol */
+        .project-page img:hover {
+            transform: scale(1.2);
+            z-index: 20;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.45);
+        }
+
+    /* Les images passent devant les éléments voisins */
+    .project-page figure {
+        position: relative;
+    }
+
+        .project-page figure:hover {
+            z-index: 20;
+        }
+
+    /* Évite que les conteneurs des images masquent le zoom */
+    .pp-deep-figure,
+    .pp-tech-figure,
+    .pp-gameplay-media,
+    .pp-context-visual,
+    .pp-architecture-visual {
+        overflow: visible;
+    }
+}
+
+/* Accessibilité */
+@media (prefers-reduced-motion: reduce) {
+    .project-page img {
+        transition: none;
+    }
+}
+
+/* =========================================
+   COLLISIONS — PRÉSENTATION DES BLUEPRINTS
+========================================= */
+
+.pp-deep-figure .pp-blueprint-title {
+    display: block;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.4;
+    color: var(--ivory);
+    margin: 0 0 20px;
+}
+
+.pp-deep-figure .pp-blueprint-description {
+    display: block;
+    max-width: 950px;
+    color: var(--muted);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.85;
+    margin: 0 0 35px;
+}
+
+.pp-deep-step > .pp-deep-figure {
+    margin: 45px 0 65px;
+}
+
+.pp-deep-figure + .pp-deep-figure {
+    padding-top: 40px;
+    border-top: 1px solid var(--pp-border);
+}
+
+@media (max-width: 650px) {
+    .pp-deep-figure .pp-blueprint-title {
+        font-size: 20px;
+    }
+
+    .pp-deep-figure .pp-blueprint-description {
+        font-size: 14px;
+    }
+}
+
+
+/* =========================================
+   11 — RESPONSIVE
+========================================= */
+
+@media (max-width: 1000px) {
+
+    .pp-gameplay-loop {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .pp-gameplay-transition {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+}
+
+@media (max-width: 900px) {
+
+    .pp-tech-grid,
+    .pp-tech-grid--reverse {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .pp-tech-grid--reverse .pp-tech-content,
+    .pp-tech-grid--reverse .pp-tech-figure {
+        order: initial;
+    }
+
+    .pp-tech-note {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .pp-container {
+        width: calc(100% - 70px);
+    }
+
+    .pp-hero-details {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .pp-hero h1 {
+        letter-spacing: -4px;
+    }
+
+    .pp-context-grid {
+        grid-template-columns: 1fr;
+        gap: 35px;
+    }
+
+    .pp-architecture-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .pp-production-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .pp-role-panel {
+        grid-template-columns: 1fr;
+    }
+
+    .pp-inline-link {
+        grid-column: 1;
+    }
+
+}
+
+@media (max-width: 850px) {
+
+    .pp-deep-objectives {
+        grid-template-columns: 1fr;
+    }
+
+    .pp-deep-step-heading {
+        gap: 18px;
+    }
+
+    .pp-deep-values {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .pp-deep-values-separator {
+        display: none;
+    }
+
+}
+
+@media (max-width: 650px) {
+
+    .pp-gameplay-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin-bottom: 75px;
+    }
+
+    .pp-gameplay-stat {
+        padding: 20px;
+    }
+
+    .pp-gameplay-loop,
+    .pp-design-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pp-gameplay-block,
+    .pp-gameplay-design {
+        margin-bottom: 80px;
+    }
+
+    .pp-loop-card,
+    .pp-design-card {
+        padding: 25px;
+    }
+
+    .pp-gameplay-transition {
+        padding: 28px;
+    }
+
+    .pp-deep-case {
+        padding: 24px;
+    }
+
+    .pp-deep-step {
+        padding: 45px 0;
+    }
+
+    .pp-deep-number {
+        font-size: 24px;
+    }
+
+    .pp-deep-objectives,
+    .pp-deep-analysis,
+    .pp-deep-conclusion {
+        padding: 24px;
+    }
+
+    .pp-deep-explanation p {
+        font-size: 14px;
+    }
+
+    .pp-deep-formula {
+        padding: 20px;
+    }
+
+    .pp-deep-formula code {
+        font-size: 12px;
+    }
+
+    .pp-deep-placeholder {
+        min-height: 200px;
+    }
+
+    .pp-tech-case {
+        padding: 25px;
+        margin-bottom: 75px;
+    }
+
+    .pp-tech-placeholder {
+        min-height: 230px;
+        padding: 20px;
+    }
+
+    .pp-tech-heading {
+        margin-bottom: 30px;
+    }
+
+    .pp-tech-note {
+        padding: 20px;
+    }
+
+    .pp-tech-footer {
+        padding: 28px;
+    }
+
+    .pp-context-grid {
+        padding: 25px;
+        gap: 30px;
+    }
+
+    .pp-container {
+        width: calc(100% - 40px);
+    }
+
+    .pp-hero {
+        min-height: auto;
+        padding: 65px 0;
+    }
+
+    .pp-hero h1 {
+        font-size: clamp(52px, 12vw, 80px);
+        letter-spacing: -3px;
+    }
+
+    .pp-hero-heading {
+        margin-bottom: 35px;
+    }
+
+    .pp-hero-subtitle {
+        font-size: 17px;
+    }
+
+    .pp-hero-details {
+        gap: 25px;
+    }
+
+    .pp-detail strong {
+        font-size: 14px;
+    }
+
+    .pp-section {
+        min-height: 300px;
+        padding: 70px 0;
+    }
+
+    .pp-section-heading {
+        margin-bottom: 55px;
+    }
+
+    .pp-context-grid,
+    .pp-architecture {
+        margin-bottom: 85px;
+    }
+
+    .pp-architecture-grid,
+    .pp-production-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pp-architecture-card {
+        padding: 25px;
+    }
+
+    .pp-role-panel {
+        padding: 28px;
+    }
+
+    .pp-architecture-visual .pp-image-placeholder {
+        aspect-ratio: 16 / 10;
+    }
+
+    /* Les études de cas conservent leur padding mobile spécifique. */
+    .pp-tech-case.pp-deep-case {
+        padding: 24px;
+    }
+
+}
