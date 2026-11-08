@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="#111116" name="theme-color"/>
+<title>Pouss’Plouf ! — Étude technique — Enzo Campanella</title>
+<meta content="Étude technique des systèmes Blueprint de Pouss’Plouf ! : mouvement, collisions, respawn, itérations et documentation." name="description"/>
+<link href="../css/style.css" rel="stylesheet"/>
+<link href="../css/projects/pouss-plouf.css" rel="stylesheet"/>
+<script defer="defer" src="../js/main.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main-content">Aller au contenu principal</a>
+<header class="topbar pp-topbar">
+<a aria-label="Retour à l'accueil" class="wordmark" href="../index.html">EC<span>.</span></a>
+<nav aria-label="Navigation des projets" class="primary-navigation" id="primary-navigation">
+<a href="../index.html">Accueil</a>
+<a href="vorace.html">Vorace</a>
+<a aria-current="page" href="pouss-plouf.html">Pouss’Plouf !</a>
+<a href="crpg.html">CRPG</a>
+<a href="jdr-mh.html">JDR Monster Hunter</a>
+<a href="procedural.html">Procédural</a>
+</nav>
+<button aria-controls="primary-navigation" aria-expanded="false" aria-label="Ouvrir le menu" class="menu-button" type="button">
+<span></span>
+<span></span>
+<span></span>
+</button>
+</header>
+<nav aria-label="Sections de la page" class="side-rail pp-side-rail">
+<a class="rail-link" href="#tech-intro"><span class="rail-num">01</span><span class="rail-name">Introduction</span></a>
+<a class="rail-link" href="#development"><span class="rail-num">02</span><span class="rail-name">Systèmes</span></a>
+<a class="rail-link" href="#iterations"><span class="rail-num">03</span><span class="rail-name">Itérations</span></a>
+<a class="rail-link" href="#documentation"><span class="rail-num">04</span><span class="rail-name">Documentation</span></a>
+</nav>
+<main class="pp-page pp-tech-page" id="main-content">
+<section class="pp-section pp-technical-hero" id="tech-intro">
+<div class="pp-container">
+<a class="pp-back" href="pouss-plouf.html">← Retour à la présentation du jeu</a>
+<p class="eyebrow">POUSS’PLOUF ! / ÉTUDE TECHNIQUE</p>
+<h1>Architecture &amp; <em>Gameplay Systems.</em></h1>
+<p class="pp-lead">Une analyse des <strong class="pp-keyword">systèmes Blueprint</strong> développés, de leurs <strong class="pp-keyword">itérations</strong> et de leurs limites : déplacement physique, collisions, respawn et documentation.</p>
+<div class="pp-tags">
+<span>AddForce</span>
+<span>VInterp To</span>
+<span>Actor Components</span>
+<span>Gameplay Tags</span>
+<span>Respawn Queue</span>
+<span>Blueprint</span>
+</div>
+<a class="pp-button pp-button-outline" href="pouss-plouf.html">Voir l'expérience joueur ↗</a>
+</div>
+</section>
+<section class="pp-section pp-development" id="development">
+<div class="pp-container">
+<!-- INTRODUCTION -->
+<div class="pp-section-heading">
+<p class="eyebrow">04 / GAMEPLAY PROGRAMMING</p>
+<h2 class="pp-section-title">Développement technique</h2>
+<p class="pp-section-description">Mon travail s'est principalement concentré sur la programmation du personnage et des systèmes qui déterminent ses interactions avec l'arène et les autres joueurs. J'ai développé le Blueprint initial du personnage à partir de zéro, puis fait évoluer ses comportements au cours du développement.</p>
+</div>
+<!-- ===================================== 01 — PLAYER MOVEMENT ====================================== -->
+<article class="pp-tech-case pp-deep-case">
+<header class="pp-deep-header">
+<span class="pp-content-index">01 — PLAYER MOVEMENT</span>
+<h3>Concevoir un système de déplacement physique</h3>
+<p>Le déplacement est au cœur de Pouss'Plouf !. L'objectif était de créer une sensation de <strong class="pp-keyword">glisse</strong> sur la banquise, sans sacrifier la réactivité nécessaire aux affrontements.</p>
+<p>J'ai développé le <strong class="pp-keyword">système de mouvement</strong> du personnage à partir de zéro, en utilisant les <strong class="pp-keyword">forces physiques</strong> d'Unreal Engine 5 plutôt qu'un déplacement direct.</p>
+</header>
+<!-- OBJECTIFS -->
+<div class="pp-deep-objectives">
+<div>
+<span class="pp-deep-label">PROBLÉMATIQUE</span>
+<p>Comment conserver une <strong class="pp-keyword">inertie perceptible</strong> tout en donnant au joueur un contrôle suffisant sur ses trajectoires ?</p>
+</div>
+<div>
+<span class="pp-deep-label">APPROCHE TECHNIQUE</span>
+<p>Construire un système combinant <strong class="pp-keyword">direction interpolée</strong>, <strong class="pp-keyword">accélération dynamique</strong>, application de forces et décélération personnalisée.</p>
+</div>
+</div>
+<!-- ===================================== 01.1 — INPUTS ET DIRECTION ====================================== -->
+<section class="pp-deep-step">
+<div class="pp-deep-step-heading">
+<span class="pp-deep-number">01.1</span>
+<div>
+<span class="pp-deep-label">INPUT PROCESSING</span>
+<h4>Du stick au vecteur de déplacement</h4>
+</div>
+</div>
+<div class="pp-deep-explanation">
+<p>Le système commence par récupérer les valeurs de déplacement issues des inputs du joueur. Ces valeurs permettent de construire un vecteur représentant la direction demandée.</p>
+<p>La <strong class="pp-keyword">normalisation</strong> de ce vecteur permet d'obtenir une direction indépendante de son amplitude initiale. Elle évite notamment que les <strong class="pp-keyword">déplacements diagonaux</strong> produisent une force supérieure aux déplacements sur un seul axe.</p>
+<p>La fonction <code>Move Dir Syst</code> utilise une <strong class="pp-keyword">interpolation</strong> <code>VInterp To</code> pour faire évoluer progressivement la direction actuelle vers celle demandée par le joueur.</p>
+</div>
+<div class="pp-deep-formula">
+<span class="pp-deep-label">PRINCIPE</span>
+<code>Input Vector → Normalisation → Direction cible → VInterp To → Move Direction</code>
+</div>
+<figure class="pp-deep-figure">
+<a class="pp-deep-image-link" href="pouss-plouf/blueprint/movement/mouvement-direction.png" rel="noopener noreferrer" target="_blank">
+<img alt="Blueprint Move Dir Syst : calcul et interpolation de la direction" loading="lazy" src="pouss-plouf/blueprint/movement/mouvement-direction.png"/>
+</a>
+<figcaption>Move Dir Syst — Calcul et interpolation de la direction de déplacement avec VInterp To. Cliquer pour agrandir.</figcaption>
+</figure>
+<div class="pp-deep-analysis">
+<strong>Impact sur le gameplay</strong>
+<p>L'<strong class="pp-keyword">interpolation</strong> permet d'ajuster la rapidité des changements de direction. Elle contribue à la <strong class="pp-keyword">sensation d'inertie</strong> recherchée pour les déplacements sur la glace.</p>
+</div>
+</section>
+<!-- ===================================== 01.2 — ACCÉLÉRATION ====================================== -->
+<section class="pp-deep-step">
+<div class="pp-deep-step-heading">
+<span class="pp-deep-number">01.2</span>
+<div>
+<span class="pp-deep-label">DYNAMIC ACCELERATION</span>
+<h4>Une accélération qui évolue avec la vitesse</h4>
+</div>
+</div>
+<div class="pp-deep-explanation">
+<p>Une <strong class="pp-keyword">accélération constante</strong> ne permettait pas d'obtenir le comportement recherché : un <strong class="pp-keyword">démarrage rapide</strong>, suivi d'une montée en vitesse plus progressive.</p>
+<p>J'ai donc développé la fonction <code>Current Forward Speed Syst</code>, qui utilise la <strong class="pp-keyword">vitesse actuelle</strong> du personnage pour calculer l'évolution de son accélération.</p>
+<p>Un nœud <code>Map Range Clamped</code> transforme une <strong class="pp-keyword">plage de vitesses</strong> comprise entre 500 et 1000 en une valeur variant de 55 à 25.</p>
+<p>Cette valeur intervient ensuite dans le calcul de l'accélération ajoutée à l'accélération courante.</p>
+</div>
+<div class="pp-deep-values">
+<div>
+<span>500</span>
+<small>Vitesse d'entrée</small>
+</div>
+<div>
+<span>55</span>
+<small>Valeur de sortie</small>
+</div>
+<div class="pp-deep-values-separator">
+<span>→</span>
+</div>
+<div>
+<span>1000</span>
+<small>Vitesse d'entrée</small>
+</div>
+<div>
+<span>25</span>
+<small>Valeur de sortie</small>
+</div>
+</div>
+<div class="pp-deep-formula">
+<span class="pp-deep-label">CALCUL BLUEPRINT</span>
+<code>New Acceleration = Current Acceleration + (Acceleration To Add × MapRange(Speed)) / Division Speed</code>
+</div>
+<figure class="pp-deep-figure">
+<a class="pp-deep-image-link" href="pouss-plouf/blueprint/movement/acceleration.png" rel="noopener noreferrer" target="_blank">
+<img alt="Blueprint Current Forward Speed Syst : calcul de l'accélération selon la vitesse" loading="lazy" src="pouss-plouf/blueprint/movement/acceleration.png"/>
+</a>
+<figcaption>Current Forward Speed Syst — Calcul dynamique de l'accélération avec Map Range Clamped. Cliquer pour agrandir.</figcaption>
+</figure>
+<div class="pp-deep-analysis">
+<strong>Impact sur le gameplay</strong>
+<p>Cette approche permet d'obtenir un <strong class="pp-keyword">personnage réactif au démarrage</strong>, tout en réduisant progressivement l'accélération ajoutée lorsque sa <strong class="pp-keyword">vitesse</strong> augmente. Le joueur doit davantage anticiper ses trajectoires à haute vitesse.</p>
+</div>
+</section>
+<!-- ===================================== 01.3 — APPLICATION DES FORCES ====================================== -->
+<section class="pp-deep-step">
+<div class="pp-deep-step-heading">
+<span class="pp-deep-number">01.3</span>
+<div>
+<span class="pp-deep-label">FORCE APPLICATION</span>
+<h4>Appliquer le déplacement au personnage</h4>
+</div>
+</div>
+<div class="pp-deep-explanation">
+<p>Une fois la direction et l'accélération calculées, le système construit le <strong class="pp-keyword">vecteur de force</strong> à appliquer au personnage.</p>
+<p>Le vecteur <code>ZQSD Vector Clamp</code> est multiplié par <code>Current Acceleration</code>. Les composantes X et Y du résultat sont affectées à <code>Force Vector</code>, tandis que sa composante Z reste nulle dans cette partie du calcul.</p>
+<p>Le vecteur obtenu est transmis au nœud <code>Add Force</code> sur le composant <code>Character Body</code>, avec <code>Accel Change</code> activé.</p>
+<p>Ce paramètre permet d'appliquer une <strong class="pp-keyword">variation d'accélération</strong> indépendamment de la masse du corps physique.</p>
+</div>
+<div class="pp-deep-formula">
+<span class="pp-deep-label">APPLICATION</span>
+<code>Force XY = Input Direction × Current Acceleration Force Z = 0 Character Body → Add Force</code>
+</div>
+<figure class="pp-deep-figure">
+<a class="pp-deep-image-link" href="pouss-plouf/blueprint/movement/mouvement-force.png" rel="noopener noreferrer" target="_blank">
+<img alt="Blueprint : calcul du Force Vector et application avec Add Force" loading="lazy" src="pouss-plouf/blueprint/movement/mouvement-force.png"/>
+</a>
+<figcaption>Application du Force Vector au Character Body avec Add Force et Accel Change. Cliquer pour agrandir.</figcaption>
+</figure>
+<div class="pp-deep-analysis">
+<strong>Choix technique</strong>
+<p>L'utilisation de forces permet au déplacement de tenir compte de la <strong class="pp-keyword">dynamique physique</strong> du personnage. Elle fournit une base pour les glissades, les changements de trajectoire et les interactions entre joueurs.</p>
+</div>
+</section>
+<!-- ===================================== 01.4 — DÉCÉLÉRATION ====================================== -->
+<section class="pp-deep-step">
+<div class="pp-deep-step-heading">
+<span class="pp-deep-number">01.4</span>
+<div>
+<span class="pp-deep-label">DECELERATION SYSTEM</span>
+<h4>Adapter le freinage aux changements de direction</h4>
+</div>
+</div>
+<div class="pp-deep-explanation">
+<p>Le personnage devait conserver de l'inertie sans devenir incontrôlable, notamment lorsque le joueur demande un déplacement opposé à la trajectoire actuelle.</p>
+<p>J'ai développé un système utilisant le <code>Dot Product</code> pour comparer la direction du mouvement à celle demandée par le joueur.</p>
+<p>Le résultat du <strong class="pp-keyword">produit scalaire</strong> est transformé par l'expression <code>(Dot + 1)²</code>, produisant une valeur comprise entre 0 et 4 pour deux directions normalisées.</p>
+<p>Cette valeur intervient dans le calcul du <strong class="pp-keyword">freinage personnalisé</strong>, qui est ensuite ajusté progressivement à l'aide de <code>FInterp To</code>.</p>
+</div>
+<div class="pp-deep-formula">
+<span class="pp-deep-label">TRANSFORMATION DU DOT PRODUCT</span>
+<code>Dot = -1 → (Dot + 1)² = 0 Dot = 0 → (Dot + 1)² = 1 Dot = 1 → (Dot + 1)² = 4</code>
+</div>
+<figure class="pp-deep-figure">
+<h5 class="pp-blueprint-title">01 — Dot Powerd Syst</h5>
+<p class="pp-blueprint-description">Cette fonction compare la direction actuelle du déplacement à celle demandée par le joueur à l'aide d'un Dot Product. Le résultat est ensuite transformé par la formule (Dot + 1)² pour obtenir un coefficient utilisé dans le calcul de la <strong class="pp-keyword">décélération</strong>.</p>
+<a class="pp-deep-image-link" href="pouss-plouf/blueprint/movement/dot-product.png" rel="noopener noreferrer" target="_blank">
+<img alt="Blueprint Dot Powerd Syst" loading="lazy" src="pouss-plouf/blueprint/movement/dot-product.png"/>
+</a>
+<figcaption>Dot Powerd Syst — Calcul du coefficient directionnel. Cliquer pour agrandir.</figcaption>
+</figure>
+<!-- BLUEPRINT 2 — DÉCÉLÉRATION -->
+<figure class="pp-deep-figure">
+<h5 class="pp-blueprint-title">02 — Calc Deceleration Syst</h5>
+<p class="pp-blueprint-description">Cette fonction utilise les paramètres du mouvement et le coefficient directionnel pour adapter le freinage du personnage. La <strong class="pp-keyword">décélération</strong> est ajustée progressivement grâce à FInterp To afin d'éviter les variations trop brusques.</p>
+<a class="pp-deep-image-link" href="pouss-plouf/blueprint/movement/calcul-deceleration.png" rel="noopener noreferrer" target="_blank">
+<img alt="Blueprint Calc Deceleration Syst" loading="lazy" src="pouss-plouf/blueprint/movement/calcul-deceleration.png"/>
+</a>
+<figcaption>Calc Deceleration Syst — Calcul et interpolation du freinage. Cliquer pour agrandir.</figcaption>
+</figure>
+<div class="pp-deep-analysis">
+<strong>Résultat des playtests</strong>
+<p>Une première approche modifiait dynamiquement le <strong class="pp-keyword">Linear Damping</strong>. Les retours des tests ont montré que le comportement était trop glissant.</p>
+<p>Le <strong class="pp-keyword">Linear Damping</strong> a donc été fixé à une valeur constante, tandis que le système de <strong class="pp-keyword">décélération</strong> personnalisé a été conservé pour adapter le freinage aux intentions de déplacement.</p>
+</div>
+</section>
+<!-- CONCLUSION -->
+<footer class="pp-deep-conclusion">
+<span class="pp-deep-label">BILAN TECHNIQUE</span>
+<h4>Un système conçu pour être ajustable</h4>
+<p>Le mouvement repose sur plusieurs calculs complémentaires, avec des paramètres exposés dans les Blueprints pour permettre leur ajustement pendant les playtests. Son comportement a évolué au cours de quatre versions successives.</p>
+<a class="pp-tech-next" href="#iterations">Voir les itérations du déplacement <span aria-hidden="true">→</span></a>
+</footer>
+</article>
+<!-- ===================================== 02 — CHARACTER ROTATION ====================================== -->
+<article class="pp-tech-case pp-deep-case">
+<header class="pp-deep-header">
+<span class="pp-content-index">02 — CHARACTER ROTATION</span>
+<h3>Orienter progressivement le personnage</h3>
+<p>La <strong class="pp-keyword">rotation</strong> est gérée séparément de l'application des forces afin de contrôler la manière dont le personnage s'oriente pendant ses déplacements.</p>
+</header>
+<section class="pp-deep-step pp-deep-step--last">
+<div class="pp-deep-explanation">
+<p>La direction de déplacement est utilisée pour calculer un angle d'orientation avec <code>Atan2</code>.</p>
+<p>Un <code>RInterp To</code> permet ensuite d'interpoler progressivement la <strong class="pp-keyword">rotation</strong> actuelle vers l'orientation cible.</p>
+<p>La <strong class="pp-keyword">vitesse</strong> de <strong class="pp-keyword">rotation</strong> constitue un paramètre ajustable afin de modifier la réactivité visuelle du personnage sans imposer une rotation instantanée.</p>
+</div>
+<figure class="pp-deep-figure">
+<a class="pp-deep-image-link" href="pouss-plouf/blueprint/rotation/rotation.png" rel="noopener noreferrer" target="_blank">
+<img alt="Blueprint : calcul de l'orientation et interpolation de la rotation" loading="lazy" src="pouss-plouf/blueprint/rotation/rotation.png"/>
+</a>
+<figcaption>Calcul de l'orientation avec Atan2 et interpolation avec RInterp To. Cliquer pour agrandir.</figcaption>
+</figure>
+</section>
+</article>
+<!-- 03 — COLLISIONS -->
+<!-- ===================================== 03 — PLAYER COLLISIONS ====================================== -->
+<article class="pp-tech-case pp-deep-case">
+<!-- INTRODUCTION -->
+<header class="pp-deep-header">
+<span class="pp-content-index">03 — PLAYER COLLISIONS</span>
+<h3>Concevoir les interactions physiques entre joueurs</h3>
+<p>Dans Pouss'Plouf !, les <strong class="pp-keyword">collisions</strong> sont au cœur du gameplay. Les joueurs doivent pouvoir utiliser leur <strong class="pp-keyword">vitesse</strong> et leur trajectoire pour repousser leurs adversaires vers les trous de l'arène.</p>
+<p>Mon travail a porté sur une première implémentation des <strong class="pp-keyword">réactions physiques aux impacts</strong>, ainsi que sur plusieurs versions d'un système permettant d'identifier l'origine d'une poussée.</p>
+</header>
+<!-- OBJECTIFS -->
+<div class="pp-deep-objectives">
+<div>
+<span class="pp-deep-label">PROBLÉMATIQUE</span>
+<p>Comment transformer une collision entre personnages en une interaction physique compréhensible et satisfaisante pour les joueurs ?</p>
+</div>
+<div>
+<span class="pp-deep-label">APPROCHE TECHNIQUE</span>
+<p>Exploiter les informations liées aux impacts, notamment leur direction et leur <strong class="pp-keyword">vitesse</strong>, pour calculer une réaction physique adaptée.</p>
+</div>
+</div>
+<!-- ===================================== 03.1 — DÉTECTION DES COLLISIONS ====================================== -->
+<section class="pp-deep-step">
+<div class="pp-deep-step-heading">
+<span class="pp-deep-number">03.1</span>
+<div>
+<span class="pp-deep-label">COLLISION DETECTION</span>
+<h4>Identifier les interactions entre personnages</h4>
+</div>
+</div>
+<div class="pp-deep-explanation">
+<p>Lorsqu'une collision se produit, le système doit disposer des informations nécessaires pour déterminer la réaction du personnage.</p>
+<p>Le Blueprint du personnage comprend notamment des variables liées à la localisation de l'impact, à son état de mouvement et à son <strong class="pp-keyword">état de rebond</strong>.</p>
+<p>Ces informations participent à la gestion des interactions physiques entre les joueurs.</p>
+</div>
+<div class="pp-deep-formula">
+<span class="pp-deep-label">DONNÉES UTILISÉES</span>
+<code>Collision → Impact Location → Movement State → Collision Response</code>
+</div>
+<figure class="pp-deep-figure">
+<h5 class="pp-blueprint-title">Détection et traitement d'une collision</h5>
+<p class="pp-blueprint-description">Traitement des interactions entre les personnages et récupération des informations nécessaires au système de collision.</p>
+<a class="pp-deep-image-link" href="pouss-plouf/blueprint/collision/detection-collision.png" rel="noopener noreferrer" target="_blank">
+<img alt="Blueprint de détection des collisions" loading="lazy" src="pouss-plouf/blueprint/collision/detection-collision.png"/>
+</a>
+<figcaption>Détection et traitement des collisions. Cliquer pour agrandir.</figcaption>
+</figure>
+</section>
+<!-- ===================================== 03.2 — RÉPONSE PHYSIQUE ====================================== -->
+<section class="pp-deep-step">
+<div class="pp-deep-step-heading">
+<span class="pp-deep-number">03.2</span>
+<div>
+<span class="pp-deep-label">PHYSICAL RESPONSE</span>
+<h4>Transformer l'impact en poussée</h4>
+</div>
+</div>
+<div class="pp-deep-explanation">
+<p>J'ai développé une première version du système de réaction physique, reposant sur la <strong class="pp-keyword">direction de l'impact</strong> et la <strong class="pp-keyword">vitesse des personnages</strong>.</p>
+<p>L'objectif était de produire une poussée cohérente avec le déplacement des joueurs, afin que leurs trajectoires influencent directement les affrontements.</p>
+<p>Cette approche devait également préserver une sensation de <strong class="pp-keyword">glisse</strong>, sans rendre les <strong class="pp-keyword">collisions</strong> totalement imprévisibles.</p>
+</div>
+<div class="pp-deep-formula">
+<span class="pp-deep-label">PRINCIPE DE FONCTIONNEMENT</span>
+<code>Détection de l'impact → Analyse de la direction → Prise en compte de la vitesse → Calcul de la réponse physique → Réaction du personnage</code>
+</div>
+<figure class="pp-deep-figure">
+<h5 class="pp-blueprint-title">Première implémentation de la poussée</h5>
+<p class="pp-blueprint-description">Présentation de mon système initial de réponse physique aux <strong class="pp-keyword">collisions</strong>, prenant en compte la direction et la <strong class="pp-keyword">vitesse</strong> de l'impact.</p>
+<a class="pp-deep-image-link" href="pouss-plouf/blueprint/collision/poussee-physique.png" rel="noopener noreferrer" target="_blank">
+<img alt="Blueprint du système de poussée physique" loading="lazy" src="pouss-plouf/blueprint/collision/poussee-physique.png"/>
+</a>
+<figcaption>Première implémentation de la réponse physique aux collisions. Cliquer pour agrandir.</figcaption>
+</figure>
+<div class="pp-deep-analysis">
+<strong>Évolution pendant le développement</strong>
+<p>Ce système a ensuite été modifié par un autre membre de l'équipe. Cette capture présente donc mon implémentation initiale, et non nécessairement le comportement exact de la version finale.</p>
+</div>
+</section>
+<!-- CONCLUSION -->
+<footer class="pp-deep-conclusion">
+<span class="pp-deep-label">BILAN TECHNIQUE</span>
+<h4>Des collisions au service du game feel</h4>
+<p>Le travail sur les <strong class="pp-keyword">collisions</strong> a nécessité plusieurs expérimentations afin de faire correspondre les réactions physiques aux intentions des joueurs.</p>
+<p>Ces <strong class="pp-keyword">itérations</strong> illustrent la relation entre programmation, Game Design et ajustement des sensations de jeu.</p>
+<a class="pp-tech-next" href="#iterations">Voir les itérations <span aria-hidden="true">→</span></a>
+</footer>
+</article>
+<!-- 04 — RESPAWN -->
+<!-- ===================================== 04 — RESPAWN SYSTEM ====================================== -->
+<article class="pp-tech-case pp-deep-case">
+<!-- INTRODUCTION -->
+<header class="pp-deep-header">
+<span class="pp-content-index">04 — RESPAWN SYSTEM</span>
+<h3>Gérer la mort et le retour en jeu</h3>
+<p>Dans Pouss'Plouf !, les joueurs sont amenés à tomber régulièrement dans les trous de la banquise. Le système de <strong class="pp-keyword">réapparition</strong> devait permettre un retour rapide en jeu, sans interrompre le rythme des affrontements.</p>
+<p>J'ai travaillé sur la détection des morts, la gestion des réapparitions et la protection temporaire des personnages après leur <strong class="pp-keyword">respawn</strong>.</p>
+</header>
+<!-- OBJECTIFS -->
+<div class="pp-deep-objectives">
+<div>
+<span class="pp-deep-label">PROBLÉMATIQUE</span>
+<p>Comment faire réapparaître un joueur rapidement sans provoquer de <strong class="pp-keyword">collisions</strong> immédiates avec les autres personnages ?</p>
+</div>
+<div>
+<span class="pp-deep-label">APPROCHE TECHNIQUE</span>
+<p>Combiner la détection des <strong class="pp-keyword">zones de mort</strong>, une <strong class="pp-keyword">file de réapparition</strong>, la vérification des spawn points et une immunité temporaire.</p>
+</div>
+</div>
+<!-- ===================================== 04.1 — DEATH DETECTION ====================================== -->
+<section class="pp-deep-step">
+<div class="pp-deep-step-heading">
+<span class="pp-deep-number">04.1</span>
+<div>
+<span class="pp-deep-label">DEATH DETECTION</span>
+<h4>Détecter la chute d'un joueur</h4>
+</div>
+</div>
+<div class="pp-deep-explanation">
+<p>Lorsqu'un personnage entre dans une zone de mort, un événement <code>On Component Begin Overlap</code> déclenche le traitement de sa chute.</p>
+<p>Le système vérifie que l'acteur détecté correspond à un personnage de type <code>BP_CharacterParent</code>.</p>
+<p>Une vérification de la <strong class="pp-keyword">file de réapparition</strong> permet également d'éviter qu'un même joueur soit ajouté plusieurs fois pendant le traitement de sa mort.</p>
+</div>
+<div class="pp-deep-formula">
+<span class="pp-deep-label">FLUX D'EXÉCUTION</span>
+<code>Begin Overlap → Cast BP_CharacterParent → Vérification de la Respawn Queue → Traitement de la mort → Demande de réapparition</code>
+</div>
+<figure class="pp-deep-figure">
+<h5 class="pp-blueprint-title">Détection des zones de mort</h5>
+<p class="pp-blueprint-description">Traitement d'une collision avec une zone de mort et identification du personnage concerné.</p>
+<a class="pp-deep-image-link" href="pouss-plouf/blueprint/respawn/detection-mort.png" rel="noopener noreferrer" target="_blank">
+<img alt="Blueprint de détection de la mort via Begin Overlap" loading="lazy" src="pouss-plouf/blueprint/respawn/detection-mort.png"/>
+</a>
+<figcaption>Détection d'une chute et lancement du processus de réapparition. Cliquer pour agrandir.</figcaption>
+</figure>
+<div class="pp-deep-analysis">
+<strong>Objectif technique</strong>
+<p>Centraliser la détection des chutes et éviter les traitements multiples pour un même personnage.</p>
+</div>
+</section>
+<!-- ===================================== 04.2 — RESPAWN QUEUE ====================================== -->
+<section class="pp-deep-step">
+<div class="pp-deep-step-heading">
+<span class="pp-deep-number">04.2</span>
+<div>
+<span class="pp-deep-label">RESPAWN QUEUE</span>
+<h4>Organiser le retour des personnages</h4>
+</div>
+</div>
+<div class="pp-deep-explanation">
+<p>Après sa mort, le joueur entre dans une <strong class="pp-keyword">file de réapparition</strong> appelée <code>Respawn Queue</code>.</p>
+<p>Le système utilise un délai fixe avant de permettre au personnage de réintégrer l'arène.</p>
+<p>Cette gestion permet de séparer le traitement de la mort du moment où le joueur revient effectivement dans la partie.</p>
+</div>
+<div class="pp-deep-formula">
+<span class="pp-deep-label">FONCTIONNEMENT</span>
+<code>Mort du personnage → Ajout à la Respawn Queue → Délai de réapparition → Recherche d'un spawn point → Retour en jeu</code>
+</div>
+<!-- 04.2 — AJOUT À LA RESPAWN QUEUE -->
+<figure class="pp-deep-figure">
+<h5 class="pp-blueprint-title">01 — Ajout à la Respawn Queue</h5>
+<p class="pp-blueprint-description">Lorsqu'un joueur meurt, le système vérifie qu'il n'est pas déjà présent dans la file d'attente avant de l'ajouter à la <strong class="pp-keyword">Respawn</strong> Queue. Cette vérification évite les <strong class="pp-keyword">demandes de réapparition en double</strong>.</p>
+<a class="pp-deep-image-link" href="pouss-plouf/blueprint/respawn/ajout-queue.png" rel="noopener noreferrer" target="_blank">
+<img alt="Blueprint d'ajout d'un joueur à la Respawn Queue" loading="lazy" src="pouss-plouf/blueprint/respawn/ajout-queue.png"/>
+</a>
+<figcaption>Vérification et ajout du personnage à la file de réapparition. Cliquer pour agrandir.</figcaption>
+</figure>
+<!-- 04.2 — GESTION DU RESPAWN -->
+<figure class="pp-deep-figure">
+<h5 class="pp-blueprint-title">02 — Gestion du Respawn</h5>
+<p class="pp-blueprint-description">Le système traite les personnages en attente dans la <strong class="pp-keyword">Respawn</strong> Queue et déclenche leur <strong class="pp-keyword">réapparition</strong> après le délai prévu. Le personnage est ensuite transmis au système de sélection des points de spawn.</p>
+<a class="pp-deep-image-link" href="pouss-plouf/blueprint/respawn/gestion-respawn.png" rel="noopener noreferrer" target="_blank">
+<img alt="Blueprint de gestion de la réapparition des joueurs" loading="lazy" src="pouss-plouf/blueprint/respawn/gestion-respawn.png"/>
+</a>
+<figcaption>Traitement de la file d'attente et déclenchement du respawn. Cliquer pour agrandir.</figcaption>
+</figure>
+<div class="pp-deep-analysis">
+<strong>Impact sur le gameplay</strong>
+<p>Le délai de <strong class="pp-keyword">réapparition</strong> maintient une conséquence temporaire après chaque chute, tout en permettant de reprendre rapidement les affrontements.</p>
+</div>
+</section>
+<!-- ===================================== 04.3 — SPAWN POINT SELECTION ====================================== -->
+<section class="pp-deep-step">
+<div class="pp-deep-step-heading">
+<span class="pp-deep-number">04.3</span>
+<div>
+<span class="pp-deep-label">SPAWN POINT SELECTION</span>
+<h4>Sélectionner un point de réapparition</h4>
+</div>
+</div>
+<div class="pp-deep-explanation">
+<p>Les <strong class="pp-keyword">points de réapparition</strong> sont organisés en fonction de l'<strong class="pp-keyword">équipe du personnage</strong>.</p>
+<p>Le système <strong class="pp-keyword">sélectionne aléatoirement</strong> un point parmi ceux correspondant à son équipe, puis vérifie sa disponibilité grâce à <code>Can Spawn</code>.</p>
+<p>Cette vérification intervient avant de replacer le personnage dans l'arène.</p>
+</div>
+<div class="pp-deep-formula">
+<span class="pp-deep-label">SÉLECTION</span>
+<code>Identification de l'équipe → Liste des Spawn Points → Sélection aléatoire → Vérification Can Spawn → Réapparition</code>
+</div>
+<figure class="pp-deep-figure">
+<h5 class="pp-blueprint-title">Choix du Spawn Point</h5>
+<p class="pp-blueprint-description">Sélection d'un point de <strong class="pp-keyword">réapparition</strong> correspondant à l'équipe du joueur, avec vérification de sa disponibilité.</p>
+<a class="pp-deep-image-link" href="pouss-plouf/blueprint/respawn/ajout-queue.png" rel="noopener noreferrer" target="_blank">
+<img alt="Blueprint d'ajout d'un joueur à la Respawn Queue" loading="lazy" src="pouss-plouf/blueprint/respawn/ajout-queue.png"/>
+</a>
+<figcaption>Sélection aléatoire et vérification des Spawn Points. Cliquer pour agrandir.</figcaption>
+</figure>
+</section>
+<!-- ===================================== 04.4 — RESPAWN IMMUNITY ====================================== -->
+<!-- ===================================== 04.4 — RESPAWN IMMUNITY ====================================== -->
+<section class="pp-deep-step">
+<div class="pp-deep-step-heading">
+<span class="pp-deep-number">04.4</span>
+<div>
+<span class="pp-deep-label">RESPAWN IMMUNITY</span>
+<h4>Protéger temporairement le joueur</h4>
+</div>
+</div>
+<div class="pp-deep-explanation">
+<p>Lorsqu'un personnage réapparaît, il peut se retrouver à proximité d'autres joueurs et subir immédiatement une nouvelle collision.</p>
+<p>Pour éviter cette situation, j'ai développé un système d'<strong class="pp-keyword">immunité temporaire</strong> reposant sur la modification des <strong class="pp-keyword">collisions</strong> et la détection des personnages environnants.</p>
+<p>J'ai également créé un <strong class="pp-keyword">canal de collision personnalisé</strong> nommé <code>Fantome</code>, permettant d'attribuer au personnage un comportement de collision spécifique pendant cette période.</p>
+</div>
+<!-- ===================================== IMAGE 1 — DÉTECTION ET IMMUNITÉ ====================================== -->
+<figure class="pp-deep-figure">
+<h5 class="pp-blueprint-title">01 — Activation et contrôle de l'immunité</h5>
+<p class="pp-blueprint-description">À la <strong class="pp-keyword">réapparition</strong>, le système active une animation de fantôme et attribue au personnage le canal de collision Fantome avec Set Collision Object Type.</p>
+<p class="pp-blueprint-description">Après le délai défini par Immunity Duration, un Sphere Overlap Actors vérifie la présence d'autres acteurs à proximité du personnage, dans un rayon de 300 unités.</p>
+<p class="pp-blueprint-description">Si la zone est occupée, une seconde vérification est effectuée avec un rayon de 100 unités. Tant que les conditions de sortie ne sont pas réunies, le système peut relancer la boucle de contrôle.</p>
+<a class="pp-deep-image-link" href="pouss-plouf/blueprint/respawn/immunite-detection.png" rel="noopener noreferrer" target="_blank">
+<img alt="Blueprint de gestion de l'immunité et détection des joueurs avec Sphere Overlap Actors" loading="lazy" src="pouss-plouf/blueprint/respawn/immunite-detection.png"/>
+</a>
+<figcaption>Activation de l'état Fantome et vérification des acteurs à proximité du personnage. Cliquer pour agrandir.</figcaption>
+</figure>
+<!-- ===================================== IMAGE 2 — RESTAURATION ====================================== -->
+<figure class="pp-deep-figure">
+<h5 class="pp-blueprint-title">02 — Restauration du personnage</h5>
+<p class="pp-blueprint-description">Lorsque l'immunité se termine, le système désactive l'animation de fantôme et restaure progressivement les paramètres habituels du personnage.</p>
+<p class="pp-blueprint-description">Les matériaux dynamiques retrouvent leur opacité normale grâce aux paramètres Alpha et Opacity.</p>
+<p class="pp-blueprint-description">Le Character Body récupère ensuite son profil de collision Normal, tandis que le Capsule Collision Receiver retrouve son type d'objet Pawn.</p>
+<a class="pp-deep-image-link" href="pouss-plouf/blueprint/respawn/immunite-restauration.png" rel="noopener noreferrer" target="_blank">
+<img alt="Blueprint de restauration des matériaux et des collisions après immunité" loading="lazy" src="pouss-plouf/blueprint/respawn/immunite-restauration.png"/>
+</a>
+<figcaption>Fin de l'immunité : restauration des matériaux, du profil Normal et du canal Pawn. Cliquer pour agrandir.</figcaption>
+</figure>
+<!-- ===================================== IMAGE 3 — CUSTOM COLLISION CHANNEL ====================================== -->
+<figure class="pp-deep-figure">
+<h5 class="pp-blueprint-title">03 — Création du canal de collision Fantome</h5>
+<p class="pp-blueprint-description">Pour isoler le comportement du personnage pendant son immunité, j'ai créé un Object Channel personnalisé dans les paramètres de collision d'Unreal Engine.</p>
+<p class="pp-blueprint-description">Ce canal, nommé Fantome, est utilisé pendant le <strong class="pp-keyword">respawn</strong> afin de différencier les réponses aux <strong class="pp-keyword">collisions</strong> selon l'état du personnage.</p>
+<a class="pp-deep-image-link" href="pouss-plouf/blueprint/respawn/collision-channel-fantome.png" rel="noopener noreferrer" target="_blank">
+<img alt="Configuration du canal de collision personnalisé Fantome dans Unreal Engine" loading="lazy" src="pouss-plouf/blueprint/respawn/collision-channel-fantome.png"/>
+</a>
+<figcaption>Object Channel Fantome créé dans Project Settings — Collision. Cliquer pour agrandir.</figcaption>
+</figure>
+<!-- ===================================== ANALYSE TECHNIQUE ====================================== -->
+<div class="pp-deep-analysis">
+<strong>Choix technique</strong>
+<p>La création d'un <strong class="pp-keyword">canal de collision personnalisé</strong> permet de distinguer les comportements physiques selon l'état du personnage.</p>
+<p>L'association de ce canal avec des <strong class="pp-keyword">vérifications de proximité</strong> permet de gérer le retour à un état normal sans dépendre uniquement d'un délai d'immunité fixe.</p>
+<p>Ce système a été développé initialement par mes soins, puis certaines parties ont été modifiées pendant la production.</p>
+</div>
+</section>
+<!-- CONCLUSION -->
+<footer class="pp-deep-conclusion">
+<span class="pp-deep-label">BILAN TECHNIQUE</span>
+<h4>Un retour en jeu contrôlé</h4>
+<p>Le système de <strong class="pp-keyword">respawn</strong> regroupe plusieurs mécanismes complémentaires : détection de la mort, gestion d'une file d'attente, sélection d'un point de <strong class="pp-keyword">réapparition</strong> et protection temporaire.</p>
+<p>L'objectif est de conserver le rythme d'un party game rapide tout en évitant les situations de <strong class="pp-keyword">réapparition</strong> injustes.</p>
+</footer>
+</article>
+<!-- 05 — INTERFACE -->
+<article class="pp-tech-case">
+<div class="pp-tech-heading">
+<span class="pp-content-index">05 — UI PROGRAMMING</span>
+<h3>Interface et paramètres du jeu</h3>
+<p>En complément du gameplay, j'ai développé différentes fonctionnalités liées aux menus et aux options.</p>
+</div>
+<div class="pp-tech-grid">
+<div class="pp-tech-content">
+<h4>Paramètres accessibles aux joueurs</h4>
+<p>J'ai travaillé sur les <strong class="pp-keyword">réglages</strong> de luminosité, de contraste et de <strong class="pp-keyword">volume sonore</strong>, ainsi que sur leur intégration dans l'interface du jeu.</p>
+<p>Pour conserver les préférences du joueur, je me suis appuyé sur le système <strong class="pp-keyword">Save Game</strong> déjà développé par un autre membre de l'équipe, que j'ai utilisé pour mes fonctionnalités.</p>
+<div class="pp-tech-tags">
+<span>UMG</span>
+<span>Audio Settings</span>
+<span>Post Process</span>
+</div>
+</div>
+<figure class="pp-tech-figure">
+<a class="pp-deep-image-link" href="pouss-plouf/blueprint/options-menu.png" rel="noopener noreferrer" target="_blank">
+<img alt="Blueprint de gestion des options graphiques et sonores" loading="lazy" src="pouss-plouf/blueprint/options-menu.png"/>
+</a>
+<figcaption>Gestion des paramètres de luminosité, de contraste et des volumes sonores. Cliquer pour agrandir.</figcaption>
+</figure>
+</div>
+</article>
+
+</div>
+</section>
+<section class="pp-section pp-iterations" id="iterations">
+<div class="pp-container">
+<header class="pp-section-heading">
+<span class="pp-content-index">05 — PROTOTYPAGE ET ITÉRATION</span>
+<h2 class="pp-section-title">Itérations et playtests</h2>
+<p class="pp-section-description">Les premières implémentations n'ont pas immédiatement produit les sensations recherchées. Les retours de testeurs extérieurs au projet ont guidé l'évolution du déplacement et des <strong class="pp-keyword">collisions</strong>.</p>
+</header>
+<!-- 05.1 — DÉPLACEMENT -->
+<article class="pp-iteration-case">
+<header class="pp-iteration-header">
+<span class="pp-content-index">01 — MOVEMENT ITERATIONS</span>
+<h3>Du déplacement rigide à une glisse maîtrisée</h3>
+<p>Le système de déplacement a connu trois versions : une première approche fondée sur la vélocité, une seconde utilisant les <strong class="pp-keyword">forces physiques</strong>, puis une version finale affinée après les playtests.</p>
+</header>
+<div class="pp-iteration-phase">
+<span class="pp-iteration-phase-number">VERSION 01 / 03</span>
+<h4>Contrôle direct de la vélocité</h4>
+<p>Le premier système reposait notamment sur <code>Set Physics Linear Velocity</code>, avec une <strong class="pp-keyword">interpolation</strong> de la direction et des valeurs de <strong class="pp-keyword">vitesse</strong>. Son comportement était trop rigide : les joueurs avaient davantage l'impression d'être propulsés que de glisser sur la glace.</p>
+<div class="pp-iteration-gallery">
+<figure class="pp-iteration-item">
+<h5>Vélocité et vitesse latérale</h5>
+<a class="pp-deep-image-link" href="pouss-plouf/blueprint/movement/v1-vitesse-laterale.png" rel="noopener noreferrer" target="_blank">
+<img alt="Blueprint V1 : vitesse latérale et Set Physics Linear Velocity" loading="lazy" src="pouss-plouf/blueprint/movement/v1-vitesse-laterale.png"/>
+</a>
+<figcaption>Interpolation de la vitesse latérale et affectation de la vélocité physique.</figcaption>
+</figure>
+<figure class="pp-iteration-item">
+<h5>Direction et progression de vitesse</h5>
+<a class="pp-deep-image-link" href="pouss-plouf/blueprint/movement/v1-direction-acceleration.png" rel="noopener noreferrer" target="_blank">
+<img alt="Blueprint V1 : VInterp To, direction et Current Forward Speed" loading="lazy" src="pouss-plouf/blueprint/movement/v1-direction-acceleration.png"/>
+</a>
+<figcaption>Interpolation de la direction et augmentation progressive de la vitesse.</figcaption>
+</figure>
+</div>
+<p class="pp-iteration-finding"><strong>Limite constatée :</strong> une sensation de propulsion, incompatible avec la <strong class="pp-keyword">glisse</strong> recherchée.</p>
+</div>
+<div class="pp-iteration-phase">
+<span class="pp-iteration-phase-number">VERSION 02 / 03</span>
+<h4>Expérimentation avec Add Force</h4>
+<p>J'ai remplacé l'approche précédente par une force appliquée au composant physique via <code>Add Force</code>, avec <code>Accel Change</code> activé. Je souhaitais vérifier si ce fonctionnement serait plus simple à exploiter. Les premiers essais se sont rapidement révélés plus satisfaisants.</p>
+<div class="pp-iteration-gallery pp-iteration-gallery--single">
+<figure class="pp-iteration-item">
+<h5>Application de la force</h5>
+<a class="pp-deep-image-link" href="pouss-plouf/blueprint/movement/v2-add-force.png" rel="noopener noreferrer" target="_blank">
+<img alt="Blueprint V2 : Force Vector et Add Force sur Cylinder" loading="lazy" src="pouss-plouf/blueprint/movement/v2-add-force.png"/>
+</a>
+<figcaption>Construction du vecteur de force à partir de la direction et de la vitesse calculée.</figcaption>
+</figure>
+</div>
+</div>
+<div class="pp-iteration-phase">
+<span class="pp-iteration-phase-number">EXPÉRIMENTATION INTERMÉDIAIRE</span>
+<h4>Décélération et Linear Damping dynamique</h4>
+<p>Avant la version finale, j'ai également expérimenté un amortissement physique variable selon la <strong class="pp-keyword">vitesse</strong>, en complément d'une logique de <strong class="pp-keyword">décélération</strong> liée à la direction. Les playtests ont montré que ce réglage pouvait produire trop de glisse.</p>
+<div class="pp-iteration-gallery pp-iteration-gallery--single">
+<figure class="pp-iteration-item">
+<h5>Ancien calcul du freinage</h5>
+<a class="pp-deep-image-link" href="pouss-plouf/blueprint/movement/ancien-linear-damping.png" rel="noopener noreferrer" target="_blank">
+<img alt="Ancien Blueprint : Dot Power, décélération et Set Linear Damping" loading="lazy" src="pouss-plouf/blueprint/movement/ancien-linear-damping.png"/>
+</a>
+<figcaption>Calcul de décélération et modification dynamique du Linear Damping.</figcaption>
+</figure>
+</div>
+</div>
+<div class="pp-iteration-phase pp-iteration-phase--final">
+<span class="pp-iteration-phase-number">VERSION FINALE / 03</span>
+<h4>Équilibrage de la vitesse et du freinage</h4>
+<p>La dernière version n'est pas une nouvelle refonte complète : elle résulte surtout d'ajustements successifs après les playtests. Selon les retours, la <strong class="pp-keyword">glisse</strong>, la <strong class="pp-keyword">vitesse</strong> et la décélération étaient trop fortes ou insuffisantes. Le <code>Linear Damping</code> est devenu constant et le freinage personnalisé a été conservé.</p>
+<div class="pp-iteration-gallery">
+<figure class="pp-iteration-item">
+<h5>Mouvement final</h5>
+<a class="pp-deep-image-link" href="pouss-plouf/blueprint/movement/mouvement-force.png" rel="noopener noreferrer" target="_blank">
+<img alt="Blueprint final de l'application de la force de déplacement" loading="lazy" src="pouss-plouf/blueprint/movement/mouvement-force.png"/>
+</a>
+<figcaption>Application de la force dans le système final, déjà présent dans la section technique.</figcaption>
+</figure>
+<figure class="pp-iteration-item">
+<h5>Décélération finale</h5>
+<a class="pp-deep-image-link" href="pouss-plouf/blueprint/movement/calcul-deceleration.png" rel="noopener noreferrer" target="_blank">
+<img alt="Blueprint final de calcul de la décélération" loading="lazy" src="pouss-plouf/blueprint/movement/calcul-deceleration.png"/>
+</a>
+<figcaption>Calcul personnalisé du freinage, déjà présenté dans la section technique.</figcaption>
+</figure>
+</div>
+<p class="pp-iteration-finding"><strong>Résultat :</strong> après ces ajustements, les testeurs se sont déclarés satisfaits du contrôle des personnages.</p>
+</div>
+</article>
+<!-- 05.2 — COLLISIONS -->
+<article class="pp-iteration-case">
+<header class="pp-iteration-header">
+<span class="pp-content-index">02 — COLLISION ITERATIONS</span>
+<h3>Des collisions physiques aux mécaniques de vulnérabilité</h3>
+<p>Les premières <strong class="pp-keyword">collisions</strong> étaient perçues comme injustes. J'ai fait évoluer mes prototypes et expérimenté des mécaniques supplémentaires avant qu'un autre développeur ne reprenne et finalise le système.</p>
+</header>
+<div class="pp-iteration-phase">
+<span class="pp-iteration-phase-number">VERSION 01</span>
+<h4>Premiers calculs de collision</h4>
+<p>La V1 détectait les impacts entre personnages, comparait des valeurs de mouvement et déclenchait une <strong class="pp-keyword">poussée physique</strong>. Elle comportait également des contrôles de direction, de rebond et des paliers associés au mouvement. Malgré ces règles, les affrontements semblaient trop injustes pour les joueurs.</p>
+<div class="pp-collision-grid">
+<article class="pp-collision-card">
+<h4>Détection d'impact</h4>
+<div class="pp-card-image">
+<img alt="Détection d'impact" src="pouss-plouf/blueprint/collision/v1-detection.png"/>
+</div>
+<figcaption>Détection des personnages et conditions de collision.</figcaption>
+</article>
+<article class="pp-collision-card">
+<h4>Poussée et rebond</h4>
+<div class="pp-card-image">
+<img alt="Poussée et rebond" src="pouss-plouf/blueprint/collision/v1-poussee-rebond.png"/>
+</div>
+<figcaption>Transmission de la poussée et application d'une impulsion.</figcaption>
+</article>
+<article class="pp-collision-card">
+<h4>Condition directionnelle</h4>
+<div class="pp-card-image">
+<img alt="Condition directionnelle" src="pouss-plouf/blueprint/collision/v1-condition-impact.png"/>
+</div>
+<figcaption>Utilisation du produit scalaire dans une condition de collision.</figcaption>
+</article>
+<article class="pp-collision-card">
+<h4>Paliers de mouvement</h4>
+<div class="pp-card-image">
+<img alt="Paliers de mouvement" src="pouss-plouf/blueprint/collision/v1-paliers-vitesse.png"/>
+</div>
+<figcaption>Classification en paliers utilisée dans les effets liés au mouvement.</figcaption>
+</article>
+</div>
+</div>
+<div class="pp-iteration-phase">
+<span class="pp-iteration-phase-number">VERSION 02</span>
+<h4>Prototyper des interactions supplémentaires</h4>
+<p>Pour rendre les affrontements plus intéressants, j'ai créé des premières versions de deux mécaniques. La <strong>vulnérabilité</strong> applique un malus via un <code>Gameplay Tag</code> lorsqu'un joueur percute une cible avec une <strong class="pp-keyword">vitesse</strong> supérieure : les chocs suivants contre cette cible sont renforcés. Le <strong>Buff Power</strong> permet d'obtenir une poussée plus puissante contre les adversaires après une collision entre alliés.</p>
+<p>J'ai implémenté ces prototypes pour tester leur intérêt en jeu, ainsi que la gestion des <code>Gameplay Tags</code>. Les deux mécaniques ont ensuite été conservées et peaufinées par l'équipe.</p>
+<div class="pp-iteration-gallery">
+<figure class="pp-iteration-item">
+<h5>Détection et vulnérabilité</h5>
+<a class="pp-deep-image-link" href="pouss-plouf/blueprint/collision/v2-detection-vulnerabilite.png" rel="noopener noreferrer" target="_blank">
+<img alt="Blueprint collisions V2 : équipes, vulnérabilité et comparaison de valeurs" loading="lazy" src="pouss-plouf/blueprint/collision/v2-detection-vulnerabilite.png"/>
+</a>
+<figcaption>Vérification des équipes, de l'immunité et des états de vulnérabilité.</figcaption>
+</figure>
+<figure class="pp-iteration-item">
+<h5>Buff Power et impulsion</h5>
+<a class="pp-deep-image-link" href="pouss-plouf/blueprint/collision/v2-poussee-impulsion.png" rel="noopener noreferrer" target="_blank">
+<img alt="Blueprint collisions V2 : Buff Power et Add Impulse" loading="lazy" src="pouss-plouf/blueprint/collision/v2-poussee-impulsion.png"/>
+</a>
+<figcaption>Calcul de la poussée avec un multiplicateur de puissance et application d'impulsion.</figcaption>
+</figure>
+</div>
+<p class="pp-iteration-finding"><strong>Limite persistante :</strong> malgré ces expérimentations, les <strong class="pp-keyword">collisions</strong> continuaient de sembler injustes.</p>
+</div>
+<div class="pp-iteration-phase pp-iteration-phase--final">
+<span class="pp-iteration-phase-number">VERSION FINALE — TRAVAIL D'ÉQUIPE</span>
+<h4>Correction du calcul et limites restantes</h4>
+<p>Un autre développeur a découvert que mes calculs précédents exploitaient une valeur d'<strong>accélération</strong> à la place de la <strong>vitesse</strong>. Il a corrigé cette erreur et terminé le système de <strong class="pp-keyword">collisions</strong>.</p>
+<p>Après cette reprise, les <strong class="pp-keyword">collisions</strong> étaient satisfaisantes dans leurs sensations. Leur équité restait toutefois imparfaite : un personnage moins rapide pouvait encore repousser un adversaire qui allait plus vite.</p>
+<p class="pp-iteration-finding"><strong>Bilan :</strong> les sensations ont progressé, mais la cohérence compétitive des <strong class="pp-keyword">collisions</strong> constituait encore une limite du jeu final.</p>
+</div>
+</article>
+<!-- 05.3 — PLAYTESTS -->
+<article class="pp-iteration-case">
+<header class="pp-iteration-header">
+<span class="pp-content-index">03 — PLAYTESTS</span>
+<h3>Observer, corriger et ajuster</h3>
+<p>Environ six à sept <strong class="pp-keyword">sessions de playtests</strong> ont accompagné la production. Les bugs étaient principalement recensés par l'équipe de développement, tandis que les retours sur les sensations provenaient de personnes extérieures au projet.</p>
+</header>
+<div class="pp-playtest-grid">
+<div class="pp-playtest-card">
+<span>01 — OBSERVATION</span>
+<h4>Retours extérieurs</h4>
+<p>Identifier les sensations de <strong class="pp-keyword">glisse</strong>, de <strong class="pp-keyword">vitesse</strong>, de freinage et le ressenti des affrontements.</p>
+</div>
+<div class="pp-playtest-card">
+<span>02 — DÉBOGAGE</span>
+<h4>Travail de l'équipe</h4>
+<p>Recenser les bugs, examiner les Blueprints et faire évoluer les systèmes concernés.</p>
+</div>
+<div class="pp-playtest-card">
+<span>03 — ITÉRATION</span>
+<h4>Ajustements successifs</h4>
+<p>Retester les modifications et réviser les paramètres ou les mécaniques en fonction des résultats.</p>
+</div>
+</div>
+<div class="pp-playtest-conclusion">
+<span class="pp-content-index">BILAN DES PLAYTESTS</span>
+<h4>Un déplacement validé, des collisions perfectibles</h4>
+<p>Les ajustements du déplacement ont abouti à un <strong class="pp-keyword">contrôle jugé satisfaisant</strong> par les testeurs. Le système de <strong class="pp-keyword">collisions</strong>, lui, a gagné en sensations et en richesse grâce aux itérations, sans résoudre entièrement les situations perçues comme injustes. Ces deux résultats ont orienté les priorités techniques du projet.</p>
+</div>
+</article>
+</div>
+</section>
+<section class="pp-section pp-documentation" id="documentation">
+<div class="pp-container">
+<header class="pp-section-heading">
+<span class="pp-content-index">06 — TECHNICAL DOCUMENTATION</span>
+<h2 class="pp-section-title">Documentation technique</h2>
+<p class="pp-section-description">En parallèle du développement, j'ai rédigé deux documents pour expliquer le fonctionnement du personnage, clarifier les variables et distinguer les <strong class="pp-keyword">paramètres ajustables</strong> des éléments à ne pas modifier. Ils témoignent de l'organisation de mon travail en Blueprint.</p>
+</header>
+<div class="pp-doc-list">
+<!-- DOCUMENT 01 — COMPOSANTS ET RÉGLAGES -->
+<article class="pp-doc-card">
+<div class="pp-doc-content">
+<span class="pp-doc-kicker">DOCUMENT 01 / 17 PAGES / PDF</span>
+<h3>Liste des composants tweakables</h3>
+<p>Un document illustré qui décrit les composants du personnage, le <strong class="pp-keyword">système de mouvement</strong> et les paramètres susceptibles d'être modifiés pendant les phases de test et d'équilibrage.</p>
+<h4>Points documentés</h4>
+<ul class="pp-doc-topics">
+<li>Structure du personnage et rôle des composants</li>
+<li>Vitesse, direction, paliers et paramètres de rotation</li>
+<li>Décélération et glisse avec Linear Damping</li>
+<li>Collisions et propriétés des Physical Materials</li>
+</ul>
+<div class="pp-doc-links">
+<a class="pp-doc-link pp-doc-link--primary" href="pouss-plouf/documentation/liste-composants-tweakables.pdf" rel="noopener noreferrer" target="_blank">Consulter le document PDF <span aria-hidden="true">↗</span></a>
+</div>
+</div>
+<figure class="pp-doc-visual">
+<a aria-label="Consulter la page 3 du document sur les composants" href="pouss-plouf/documentation/liste-composants-tweakables.pdf#page=3" rel="noopener noreferrer" target="_blank">
+<img alt="Extrait du document technique sur les paramètres de mouvement du personnage" loading="lazy" src="pouss-plouf/documentation/apercu-composants.png"/>
+</a>
+<figcaption>Extrait de la documentation, avec explications et captures Blueprint.</figcaption>
+</figure>
+</article>
+<!-- DOCUMENT 02 — VARIABLES DU CHARACTER -->
+<article class="pp-doc-card">
+<div class="pp-doc-content">
+<span class="pp-doc-kicker">DOCUMENT 02 / 4 PAGES / DOCX</span>
+<h3>Variables Character</h3>
+<p>Un glossaire des principales variables du personnage : leur rôle, leurs relations et des exemples de calculs. Il sert de référence pour comprendre les systèmes de déplacement et les <strong class="pp-keyword">réglages</strong> du prototype décrit dans le document.</p>
+<h4>Points documentés</h4>
+<ul class="pp-doc-topics">
+<li>MaxSpeed, Acceleration et Time To Speed Max</li>
+<li>CurrentForwardSpeed, CurrentSlideSpeed et Move Direction</li>
+<li>Dot Powered, Drift Power et Drift Response</li>
+<li>Exemples de Map Range Clamped et de calculs de vitesse</li>
+</ul>
+<div class="pp-doc-links">
+<a class="pp-doc-link pp-doc-link--primary" href="pouss-plouf/documentation/variables-character.pdf" rel="noopener noreferrer" target="_blank">Consulter le document PDF <span aria-hidden="true">↗</span></a>
+</div>
+</div>
+<figure class="pp-doc-visual">
+<a aria-label="Consulter le document sur les variables du personnage" href="pouss-plouf/documentation/variables-character.pdf" rel="noopener noreferrer" target="_blank">
+<img alt="Extrait du glossaire des variables du personnage avec MaxSpeed et Acceleration" loading="lazy" src="pouss-plouf/documentation/apercu-variables.png"/>
+</a>
+<figcaption>Extrait du glossaire des variables et de leurs calculs.</figcaption>
+</figure>
+</article>
+</div>
+<div class="pp-doc-archive-note">
+<span class="pp-doc-kicker">CONTEXTE DE PRODUCTION</span>
+<p>Ces documents ont été rédigés pendant le développement. Ils décrivent l'état de certains systèmes à une étape donnée : quelques paramètres et implémentations ont ensuite évolué. Leur intérêt ici est de montrer la démarche de documentation et la <strong class="pp-keyword">traçabilité des réglages</strong>, plutôt que de constituer une référence exhaustive de la version finale.</p>
+</div>
+</div>
+</section>
+</main>
+<footer class="pp-footer">
+<span>© Enzo Campanella · Gameplay Programmer</span>
+<a href="../index.html#projets">Tous les projets ↑</a>
+</footer>
+</body>
+</html>
