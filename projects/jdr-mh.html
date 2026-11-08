@@ -1,1 +1,269 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#111116">
+    <meta name="description" content="Monster Hunter — JDR : adapter l'expérience de chasse au jeu de rôle sur table, de la traque au combat tactique.">
+    <title>Monster Hunter — JDR | Enzo Campanella</title>
 
+    <!-- Feuille globale du portfolio puis styles propres à ce projet. -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/projects/jdr-mh.css">
+    <script src="../js/main.js" defer></script>
+</head>
+<body>
+    <a class="skip-link" href="#main-content">Aller au contenu principal</a>
+
+    <!-- Navigation commune aux projets. -->
+    <header class="topbar mh-topbar">
+        <a class="wordmark" href="../index.html" aria-label="Retour à l'accueil">EC<span>.</span></a>
+        <nav class="primary-navigation" id="primary-navigation" aria-label="Navigation des projets">
+            <a href="../index.html">Accueil</a>
+            <a href="vorace.html">Vorace</a>
+            <a href="pouss-plouf.html">Pouss’Plouf !</a>
+            <a href="crpg.html">CRPG</a>
+            <a href="jdr-mh.html" aria-current="page">JDR Monster Hunter</a>
+            <a href="procedural.html">Procédural</a>
+        </nav>
+        <button class="menu-button" type="button" aria-label="Ouvrir le menu" aria-controls="primary-navigation" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+    </header>
+
+    <!-- La sidebar suit la section visible avec le JS global. -->
+    <nav class="side-rail mh-side-rail" aria-label="Sections de la page">
+        <a class="rail-link" data-section="presentation" href="#presentation"><span class="rail-num">01</span><span class="rail-name">Présentation</span></a>
+        <a class="rail-link" data-section="chasse" href="#chasse"><span class="rail-num">02</span><span class="rail-name">Chasse</span></a>
+        <a class="rail-link" data-section="exploration" href="#exploration"><span class="rail-num">03</span><span class="rail-name">Exploration</span></a>
+        <a class="rail-link" data-section="combat" href="#combat"><span class="rail-num">04</span><span class="rail-name">Combat</span></a>
+        <a class="rail-link" data-section="progression" href="#progression"><span class="rail-num">05</span><span class="rail-name">Progression</span></a>
+        <a class="rail-link" data-section="univers" href="#univers"><span class="rail-num">06</span><span class="rail-name">Univers</span></a>
+        <a class="rail-link" data-section="playtest" href="#playtest"><span class="rail-num">07</span><span class="rail-name">Playtest</span></a>
+        <a class="rail-link" data-section="documentation" href="#documentation"><span class="rail-num">08</span><span class="rail-name">Documents</span></a>
+    </nav>
+
+    <main class="mh-page" id="main-content">
+        <!-- 01. Présentation -->
+        <section class="mh-section mh-landing" id="presentation">
+            <div class="mh-container">
+                <a class="mh-back" href="../index.html#projets">← Retour aux projets</a>
+                <p class="mh-eyebrow">GAME DESIGN / SYSTEMS DESIGN / TABLETOP RPG</p>
+                <h1>Monster Hunter <em>— JDR</em></h1>
+                <p class="mh-lead">L'expérience de chasse, réinventée autour d'une table.</p>
+                <p class="mh-summary">Un projet personnel de jeu de rôle inspiré de Monster Hunter. Mon objectif : retrouver la préparation, la traque, l'apprentissage des monstres et la progression des chasseurs, tout en adaptant ces sensations aux décisions et à la narration propres au jeu de rôle.</p>
+
+                <div class="mh-stats" aria-label="Chiffres clés du projet">
+                    <div><strong>4</strong><span>Armes jouables</span><small>Styles de combat distincts</small></div>
+                    <div><strong>5</strong><span>Monstres prévus</span><small>Premier acte</small></div>
+                    <div><strong>3</strong><span>Joueurs</span><small>Premier playtest</small></div>
+                </div>
+
+                <div class="mh-tags">
+                    <span>Combat Design</span><span>Monster Design</span><span>Exploration Design</span>
+                    <span>Progression</span><span>Worldbuilding</span>
+                </div>
+                <p class="mh-role"><b>Mon rôle :</b> conception des règles, des monstres, des armes, de la progression et de la campagne.</p>
+                <div class="mh-actions">
+                    <a class="mh-button" href="#chasse">Découvrir l'expérience de chasse ↓</a>
+                    <a class="mh-button mh-button-outline" href="#combat">Voir le système de combat ↓</a>
+                </div>
+
+                <figure class="mh-hero-visual">
+                    <img src="jdr-mh/illustration-jdr.png" alt="Illustration originale d'un groupe de chasseurs face à une créature" fetchpriority="high">
+                    <figcaption>Illustration d'ambiance du JDR — inspiré de l'univers Monster Hunter.</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <!-- 02. La boucle complète -->
+        <section class="mh-section" id="chasse">
+            <div class="mh-container">
+                <p class="mh-eyebrow">02 / L'EXPÉRIENCE DE CHASSE</p>
+                <h2>Une chasse ne se résume pas à un combat.</h2>
+                <p class="mh-intro">Je souhaitais conserver les grandes étapes de Monster Hunter, mais leur donner une place dans une <strong class="mh-keyword">campagne narrative</strong> où les décisions prises pendant une expédition peuvent préparer la suivante.</p>
+                <ol class="mh-hunt-loop" aria-label="Boucle de chasse en six phases">
+                    <li><span>01</span><b>Village</b><small>Se préparer à partir</small></li>
+                    <li><span>02</span><b>Briefing</b><small>Comprendre la mission</small></li>
+                    <li><span>03</span><b>Préparation</b><small>Choisir son matériel</small></li>
+                    <li><span>04</span><b>Exploration</b><small>Traquer sa cible</small></li>
+                    <li><span>05</span><b>Combat</b><small>Observer et s'adapter</small></li>
+                    <li><span>06</span><b>Retour</b><small>Exploiter ses découvertes</small></li>
+                </ol>
+                <p class="mh-note">La boucle complète représente l'objectif de conception. Le premier playtest a porté sur la préparation, l'exploration et le combat.</p>
+            </div>
+        </section>
+
+        <!-- 03. Prototype d'exploration -->
+        <section class="mh-section" id="exploration">
+            <div class="mh-container">
+                <p class="mh-eyebrow">03 / EXPLORATION & PISTAGE</p>
+                <h2>Traquer une créature, pas suivre un marqueur.</h2>
+                <p class="mh-intro">Mon premier prototype s'inspirait des anciens Monster Hunter : une région composée de <strong class="mh-keyword">15 zones interconnectées</strong>, parcourues par les chasseurs comme par leur cible. Les joueurs pouvaient y entreprendre des recherches pour découvrir des indices et déterminer quelle piste suivre.</p>
+                <figure class="mh-figure mh-figure-map">
+                    <a href="jdr-mh/carte-chasse.png" target="_blank" rel="noopener noreferrer" aria-label="Agrandir la carte de chasse">
+                        <img src="jdr-mh/carte-chasse.png" alt="Carte de combat forestière sur grille hexagonale, avec pion de monstre et pions de chasseurs" loading="lazy">
+                    </a>
+                    <figcaption>Extrait d'une zone de chasse utilisée pour représenter les déplacements et les affrontements.</figcaption>
+                </figure>
+                <div class="mh-feature-grid">
+                    <article class="mh-feature"><span class="mh-feature-num">01</span><h3>Parcourir</h3><p>Se déplacer entre les zones en tenant compte des mouvements possibles du monstre.</p></article>
+                    <article class="mh-feature"><span class="mh-feature-num">02</span><h3>Observer</h3><p>Rechercher des traces, comparer les indices et comprendre l'environnement.</p></article>
+                    <article class="mh-feature"><span class="mh-feature-num">03</span><h3>Déduire</h3><p>Choisir une direction de traque à partir des informations obtenues.</p></article>
+                </div>
+                <div class="mh-insight">
+                    <span class="mh-insight-label">ENSEIGNEMENT DU PREMIER TEST</span>
+                    <p>J'ai constaté que reprendre la structure des anciens jeux ne suffisait pas. Dans un JDR, l'exploration doit faire davantage appel aux descriptions, aux interactions avec le monde et aux décisions des joueurs. <strong class="mh-keyword">Une exploration plus diégétique</strong> constitue aujourd'hui une piste de refonte, pas une fonctionnalité déjà finalisée.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 04. Combat et monstre -->
+        <section class="mh-section" id="combat">
+            <div class="mh-container">
+                <p class="mh-eyebrow">04 / COMBAT & MONSTER DESIGN</p>
+                <h2>Le monstre annonce le danger. Aux chasseurs d'anticiper.</h2>
+                <p class="mh-intro">Je voulais remplacer la lecture des animations et les réflexes du jeu vidéo par un mécanisme de <strong class="mh-keyword">lecture des intentions</strong>. Le MJ exécute l'attaque annoncée lors du tour précédent, puis décrit les télégraphes des attaques du tour suivant. Une fois annoncée, l'attaque est engagée.</p>
+
+                <div class="mh-combat-sequence" aria-label="Déroulement d'une attaque télégraphiée">
+                    <article><span>01 / MJ</span><h3>Résolution</h3><p>Le monstre exécute l'attaque précédemment annoncée.</p></article>
+                    <article><span>02 / MJ</span><h3>Télégraphe</h3><p>Un cri, une posture ou un mouvement annonce sa prochaine attaque.</p></article>
+                    <article><span>03 / JOUEURS</span><h3>Anticipation</h3><p>Les chasseurs choisissent comment employer leurs quatre PA avant l'exécution.</p></article>
+                </div>
+
+                <div class="mh-split mh-split-monster">
+                    <div>
+                        <p class="mh-eyebrow">ÉTUDE DE CAS / LALA BARINA</p>
+                        <h3>Un monstre à apprendre, pas seulement à vaincre.</h3>
+                        <p>Lala Barina illustre les interactions entre <strong class="mh-keyword">télégraphes</strong>, enragement, paralysie et parties destructibles.</p>
+                        <p>Ses attaques sont associées à des signes préparatoires. Les chasseurs doivent apprendre à les reconnaître pour se repositionner, esquiver ou poursuivre leurs combos.</p>
+                        <p>La rupture de certaines parties modifie ses capacités : par exemple, sa fleur intervient dans l'utilisation des pétales et son dard dans les attaques de paralysie. Le choix de la partie ciblée devient ainsi une décision tactique.</p>
+                        <div class="mh-mini-stats"><div><b>4 PA</b><small>Par tour de chasseur</small></div><div><b>Rage</b><small>Attaques et rythme modifiés</small></div></div>
+                    </div>
+                    <figure class="mh-figure">
+                        <a href="jdr-mh/lala-barina-fiche.png" target="_blank" rel="noopener noreferrer" aria-label="Agrandir la fiche complète de Lala Barina">
+                            <img src="jdr-mh/lala-barina-fiche.png" alt="Fiche prototype Lala Barina : attaques, télégraphes, effets et parties destructibles" loading="lazy">
+                        </a>
+                        <figcaption>Fiche de prototype de Lala Barina. Les valeurs chiffrées visibles sont celles de cette version du test.</figcaption>
+                    </figure>
+                </div>
+
+                <div class="mh-divider"></div>
+                <p class="mh-eyebrow">WEAPON DESIGN</p>
+                <h3>Des armes qui imposent leur propre rythme.</h3>
+                <p class="mh-body-copy">Quatre armes sont prévues avec leurs enchaînements et leurs contraintes spécifiques : <strong class="mh-keyword">Long Sword, Arc, Insect Glaive et Doubles Lames</strong>. La gestion des PA, des combos et du positionnement doit préserver leur identité dans un système au tour par tour.</p>
+                <div class="mh-image-pair">
+                    <figure class="mh-figure">
+                        <a href="jdr-mh/combos-double-lames.png" target="_blank" rel="noopener noreferrer">
+                            <img src="jdr-mh/combos-double-lames.png" alt="Arbre des enchaînements des Doubles Lames en modes normal et démon" loading="lazy">
+                        </a>
+                        <figcaption>Arbre de combos des Doubles Lames — enchaînements et modes de combat.</figcaption>
+                    </figure>
+                    <figure class="mh-figure">
+                        <a href="jdr-mh/degats-double-lames.png" target="_blank" rel="noopener noreferrer">
+                            <img src="jdr-mh/degats-double-lames.png" alt="Tableau de prototype des coûts, dégâts, portée et effets des Doubles Lames" loading="lazy">
+                        </a>
+                        <figcaption>Exemple de suivi des dégâts, de jauge et d'actions pour une arme.</figcaption>
+                    </figure>
+                </div>
+            </div>
+        </section>
+
+        <!-- 05. Progression -->
+        <section class="mh-section" id="progression">
+            <div class="mh-container">
+                <p class="mh-eyebrow">05 / ÉQUIPEMENT & PROGRESSION</p>
+                <h2>Chaque chasse prépare la suivante.</h2>
+                <p class="mh-intro">Le système de progression repose sur la fabrication et l'association de pièces d'équipement. Armes, armures et talents doivent permettre aux chasseurs de personnaliser leur style de jeu et de composer des <strong class="mh-keyword">combinaisons d'équipement</strong> adaptées à leurs prochaines cibles.</p>
+                <figure class="mh-figure mh-figure-wide">
+                    <a href="jdr-mh/equipement.png" target="_blank" rel="noopener noreferrer">
+                        <img src="jdr-mh/equipement.png" alt="Tableau de prototype de l'équipement en fer, avec bonus de défense, d'attaque et talents" loading="lazy">
+                    </a>
+                    <figcaption>Exemple de fiche d'équipement en fer et de ses effets — document de conception.</figcaption>
+                </figure>
+                <div class="mh-feature-grid mh-feature-grid-two">
+                    <article class="mh-feature"><span class="mh-feature-num">ÉQUIPEMENT</span><h3>Faire évoluer son build</h3><p>La conception prévoit plusieurs pièces craftables par monstre et des bonus de set encourageant les associations.</p></article>
+                    <article class="mh-feature"><span class="mh-feature-num">CAMPAGNE</span><h3>Progresser au-delà du personnage</h3><p>Les ressources, les chasses et les choix des joueurs doivent aussi contribuer au développement du village.</p></article>
+                </div>
+                <p class="mh-note">Ces systèmes sont décrits dans la bible ; leur boucle complète n'a pas encore été évaluée pendant le premier playtest.</p>
+            </div>
+        </section>
+
+        <!-- 06. Monde -->
+        <section class="mh-section" id="univers">
+            <div class="mh-container">
+                <p class="mh-eyebrow">06 / UNIVERS & CAMPAGNE</p>
+                <h2>Un monde qui existe au-delà de la chasse.</h2>
+                <p class="mh-intro">La campagne se déroule dans un univers structuré en régions, royaumes et territoires. Le village sert de point d'ancrage à la progression : les expéditions doivent avoir des conséquences sur les habitants, les ressources et les possibilités offertes aux joueurs.</p>
+                <div class="mh-split mh-world-layout">
+                    <figure class="mh-figure mh-world-map">
+                        <a href="jdr-mh/carte-monde.png" target="_blank" rel="noopener noreferrer">
+                            <img src="jdr-mh/carte-monde.png" alt="Carte de l'univers du jeu de rôle, avec les royaumes d'Orgalys, Valdurëa et Eldera et le village de Villea" loading="lazy">
+                        </a>
+                        <figcaption>Carte de travail de l'univers — royaumes et lieux de la campagne.</figcaption>
+                    </figure>
+                    <div>
+                        <h3>Donner du sens aux expéditions.</h3>
+                        <p>L'univers est pensé pour relier les chasses à une histoire plus vaste. Les monstres possèdent un territoire, des comportements et une place dans leur écosystème.</p>
+                        <p>Au fil de la campagne, les découvertes et les choix des chasseurs doivent influencer l'évolution du village et la situation du monde.</p>
+                        <p>Ce cadre narratif permet d'explorer des enjeux qui dépassent la simple élimination d'une créature.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 07. Test et posture de concepteur -->
+        <section class="mh-section" id="playtest">
+            <div class="mh-container">
+                <p class="mh-eyebrow">07 / PLAYTEST & ITÉRATIONS</p>
+                <h2>Confronter une intention à l'expérience réelle.</h2>
+                <p class="mh-intro">Un premier playtest avec <strong class="mh-keyword">trois joueurs</strong> a permis d'éprouver la préparation, l'exploration et le combat. Mon bilan en tant que concepteur et MJ est provisoire : la structure générale m'a semblé fonctionner, mais plusieurs aspects nécessitent des itérations.</p>
+                <div class="mh-findings">
+                    <article><span>INTENTION CONSERVÉE</span><h3>Des combats longs</h3><p>La durée des affrontements correspond à l'expérience recherchée. Le défi consiste à maintenir l'intérêt des décisions pendant cette durée.</p></article>
+                    <article><span>POINT À ÉTUDIER</span><h3>La répétition des tours</h3><p>Les cycles d'actions sont volontairement proches de Monster Hunter. Je dois encore déterminer si leur répétition reste engageante sur table.</p></article>
+                    <article><span>PISTE DE REFONTE</span><h3>Une exploration plus diégétique</h3><p>Le déplacement entre zones et les recherches d'indices demandent davantage d'interactions et de narration pour fonctionner dans un JDR.</p></article>
+                    <article><span>À RETRAVAILLER</span><h3>L'équilibrage</h3><p>Je considère qu'une révision importante des valeurs et des interactions est nécessaire avant les prochains tests.</p></article>
+                </div>
+                <div class="mh-insight">
+                    <span class="mh-insight-label">BILAN PROVISOIRE</span>
+                    <p>Ces constats sont <strong class="mh-keyword">mes observations de concepteur</strong>, et non des retours attribués aux joueurs. Leurs retours détaillés sont encore attendus. La présentation distingue donc les systèmes documentés, ce qui a effectivement été testé et les pistes d'amélioration.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 08. Accès aux documents de conception -->
+        <section class="mh-section mh-documentation-section" id="documentation">
+            <div class="mh-container">
+                <p class="mh-eyebrow">08 / DOCUMENTATION DU PROJET</p>
+                <h2>Explorer la bible de The Hunt.</h2>
+                <p class="mh-intro">Le projet est accompagné d'une <strong class="mh-keyword">bible de conception</strong> détaillant les intentions de Game Design, l'univers, les systèmes, les armes, l'exploration, le village et les monstres. Une synthèse présente les piliers et la boucle d'expérience du jeu.</p>
+
+                <div class="mh-download-panel">
+                    <div class="mh-download-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 3v12m0 0 4-4m-4 4-4-4" />
+                            <path d="M5 17v3h14v-3" />
+                        </svg>
+                    </div>
+                    <div class="mh-download-copy">
+                        <p class="mh-download-kicker">DOSSIER DOCUMENTAIRE · ARCHIVE ZIP</p>
+                        <h3>Bible complète &amp; synthèse</h3>
+                        <p>Sept tomes de la bible et la synthèse <em>The Hunt</em>, fournis en HTML consultable dans un navigateur. Ces documents reflètent un projet en cours de conception et d'itération.</p>
+                        <p class="mh-download-details">8 documents HTML · ZIP · <span id="mh-download-size">168 Ko</span></p>
+                    </div>
+                    <a class="mh-button mh-download-button" href="jdr-mh/downloads/the-hunt-bible-et-synthese.zip" download="the-hunt-bible-et-synthese.zip" aria-label="Télécharger la bible et la synthèse du projet The Hunt au format ZIP">
+                        Télécharger la documentation <span aria-hidden="true">↓</span>
+                    </a>
+                </div>
+                <p class="mh-note">La documentation est fournie dans son état actuel. Certaines règles et valeurs peuvent différer des exemples présentés lors du premier playtest.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="mh-footer">
+        <span>© Enzo Campanella · Game Design / Gameplay Programming</span>
+        <a href="../index.html#projets">Tous les projets ↑</a>
+    </footer>
+</body>
+</html>

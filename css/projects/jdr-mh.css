@@ -1,0 +1,673 @@
+/* =============================================================
+   MONSTER HUNTER — JDR
+   Style local de la page projet.
+   Dépend de css/style.css (typographie, fond, navbar, sidebar).
+   ============================================================= */
+
+:root {
+    --mh-accent: var(--color-accent, #c5b2ea);
+    --mh-text: var(--color-text, #f5f1e9);
+    --mh-muted: var(--color-text-muted, #aaa5b7);
+    --mh-border: var(--color-border, rgba(197, 178, 234, 0.18));
+    --mh-panel: rgba(23, 21, 31, 0.85);
+    --mh-panel-strong: rgba(29, 25, 41, 0.94);
+    --mh-max: 1120px;
+}
+
+/* 01 — Mise en page commune */
+.mh-page {
+    padding-top: var(--header-height, 72px);
+    overflow: clip;
+}
+
+.mh-container {
+    width: min(var(--mh-max), calc(100% - 64px));
+    margin-inline: auto;
+}
+
+.mh-section {
+    padding: 92px 0;
+    border-bottom: 1px solid var(--mh-border);
+    scroll-margin-top: 84px;
+}
+
+.mh-landing {
+    padding-top: 62px;
+}
+
+.mh-page h1,
+.mh-page h2,
+.mh-page h3 {
+    color: var(--mh-text);
+    line-height: 1.15;
+}
+
+.mh-page h1 {
+    font-size: clamp(3.2rem, 7vw, 6.5rem);
+    letter-spacing: -0.065em;
+    margin: 18px 0 22px;
+}
+
+.mh-page h1 em {
+    font-style: normal;
+    color: var(--mh-accent);
+}
+
+.mh-page h2 {
+    max-width: 950px;
+    font-size: clamp(2.1rem, 4.4vw, 3.5rem);
+    letter-spacing: -0.045em;
+    margin: 15px 0 25px;
+}
+
+.mh-page h3 {
+    font-size: clamp(1.25rem, 2.7vw, 1.75rem);
+    letter-spacing: -0.02em;
+    margin: 10px 0 16px;
+}
+
+.mh-page p {
+    color: var(--mh-muted);
+    line-height: 1.77;
+}
+
+.mh-page .mh-keyword {
+    color: var(--mh-accent);
+    font-weight: 750;
+}
+
+.mh-eyebrow,
+.mh-feature-num,
+.mh-insight-label {
+    color: var(--mh-accent) !important;
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.mh-intro {
+    max-width: 840px;
+    margin-bottom: 33px;
+    font-size: 1.07rem;
+}
+
+.mh-body-copy {
+    max-width: 840px;
+}
+
+.mh-note {
+    font-size: 0.89rem;
+    margin-top: 22px;
+    max-width: 800px;
+}
+
+/* 02 — Hero */
+.mh-back {
+    display: inline-flex;
+    margin-bottom: 25px;
+    color: var(--mh-muted);
+    font-size: 0.88rem;
+    text-decoration: none;
+}
+
+.mh-back:hover,
+.mh-back:focus-visible {
+    color: var(--mh-accent);
+}
+
+.mh-lead {
+    max-width: 850px;
+    color: var(--mh-text) !important;
+    font-size: clamp(1.24rem, 2.3vw, 1.7rem);
+    font-weight: 600;
+}
+
+.mh-summary {
+    max-width: 830px;
+    font-size: 1.06rem;
+}
+
+.mh-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+    border-block: 1px solid var(--mh-border);
+    padding: 24px 0;
+    margin: 38px 0 23px;
+}
+
+.mh-stats > div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.mh-stats strong {
+    color: var(--mh-text);
+    font-family: var(--font-heading, sans-serif);
+    font-size: clamp(2.6rem, 5vw, 3.8rem);
+    line-height: 1;
+}
+
+.mh-stats span {
+    font-size: 0.96rem;
+    font-weight: 750;
+}
+
+.mh-stats small,
+.mh-role {
+    color: var(--mh-muted);
+}
+
+.mh-tags,
+.mh-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.mh-tags span {
+    border: 1px solid rgba(197, 178, 234, 0.4);
+    border-radius: 5px;
+    background: rgba(163, 107, 255, 0.07);
+    padding: 7px 11px;
+    color: #dfd0f7;
+    font-size: 0.81rem;
+    font-weight: 650;
+}
+
+.mh-role {
+    margin: 20px 0 25px;
+    font-size: 0.9rem;
+}
+
+.mh-role b {
+    color: var(--mh-text);
+}
+
+.mh-actions {
+    margin: 26px 0 40px;
+}
+
+.mh-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 13px 19px;
+    border-radius: 6px;
+    background: var(--mh-accent);
+    color: #171020 !important;
+    font-weight: 800;
+    text-decoration: none;
+    transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+.mh-button:hover,
+.mh-button:focus-visible {
+    filter: brightness(1.12);
+    transform: translateY(-1px);
+}
+
+.mh-button-outline {
+    background: transparent;
+    border: 1px solid var(--mh-accent);
+    color: var(--mh-text) !important;
+}
+
+.mh-hero-visual {
+    margin: 0;
+}
+
+.mh-hero-visual img {
+    width: 100%;
+    max-height: 650px;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border: 1px solid var(--mh-border);
+    border-radius: 12px;
+}
+
+.mh-page figcaption {
+    margin-top: 11px;
+    color: var(--mh-muted);
+    font-size: 0.83rem;
+    line-height: 1.55;
+}
+
+/* 03 — Boucle de chasse */
+.mh-hunt-loop {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    padding: 0;
+    margin: 38px 0 0;
+    list-style: none;
+}
+
+.mh-hunt-loop li {
+    display: flex;
+    flex-direction: column;
+    min-height: 148px;
+    padding: 22px;
+    border: 1px solid var(--mh-border);
+    border-radius: 9px;
+    background: var(--mh-panel);
+}
+
+.mh-hunt-loop li > span {
+    color: var(--mh-accent);
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+}
+
+.mh-hunt-loop li b {
+    color: var(--mh-text);
+    margin-top: 12px;
+    font-size: 1.18rem;
+}
+
+.mh-hunt-loop li small {
+    color: var(--mh-muted);
+}
+
+/* 04 — Figures, contenu en cartes */
+.mh-figure {
+    margin: 0;
+    min-width: 0;
+}
+
+.mh-figure a {
+    display: block;
+    overflow: hidden;
+    border-radius: 9px;
+    border: 1px solid var(--mh-border);
+    background: #15131d;
+}
+
+.mh-figure a:focus-visible {
+    outline: 3px solid var(--mh-accent);
+    outline-offset: 4px;
+}
+
+.mh-figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 710px;
+    object-fit: contain;
+}
+
+.mh-figure-map {
+    max-width: 800px;
+    margin: 30px auto;
+}
+
+.mh-figure-map img {
+    max-height: 650px;
+}
+
+.mh-feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 15px;
+    margin-top: 34px;
+}
+
+.mh-feature-grid-two {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.mh-feature,
+.mh-findings article {
+    padding: 23px;
+    border: 1px solid var(--mh-border);
+    border-radius: 10px;
+    background: var(--mh-panel);
+}
+
+.mh-feature h3,
+.mh-findings h3 {
+    font-size: 1.12rem;
+    margin: 11px 0;
+}
+
+.mh-feature p,
+.mh-findings p {
+    margin-bottom: 0;
+    font-size: 0.92rem;
+}
+
+.mh-insight {
+    margin-top: 36px;
+    padding: 24px 28px;
+    background: rgba(35, 29, 51, 0.82);
+    border-left: 3px solid var(--mh-accent);
+    border-radius: 5px;
+}
+
+.mh-insight p {
+    margin: 12px 0 0;
+}
+
+/* 05 — Combat : séquence annoncée */
+.mh-combat-sequence {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 15px;
+    margin: 34px 0 54px;
+}
+
+.mh-combat-sequence article {
+    position: relative;
+    padding: 24px;
+    border: 1px solid rgba(197, 178, 234, 0.4);
+    border-radius: 10px;
+    background: var(--mh-panel-strong);
+}
+
+.mh-combat-sequence article:not(:last-child)::after {
+    content: "→";
+    position: absolute;
+    right: -15px;
+    top: 50%;
+    z-index: 1;
+    width: 20px;
+    color: var(--mh-accent);
+    font-size: 1.4rem;
+    text-align: center;
+    transform: translateY(-50%);
+}
+
+.mh-combat-sequence span {
+    color: var(--mh-accent);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.11em;
+}
+
+.mh-combat-sequence h3 {
+    margin: 12px 0;
+}
+
+.mh-combat-sequence p {
+    margin: 0;
+    font-size: 0.91rem;
+}
+
+.mh-split {
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    align-items: center;
+    gap: 45px;
+    margin: 40px 0;
+}
+
+.mh-split-monster .mh-figure img {
+    max-height: 570px;
+}
+
+.mh-mini-stats {
+    display: flex;
+    gap: 25px;
+    padding-top: 22px;
+    margin-top: 23px;
+    border-top: 1px solid var(--mh-border);
+}
+
+.mh-mini-stats > div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.mh-mini-stats b {
+    color: var(--mh-accent);
+    font-size: 1.35rem;
+}
+
+.mh-mini-stats small {
+    color: var(--mh-muted);
+}
+
+.mh-divider {
+    height: 1px;
+    background: var(--mh-border);
+    margin: 54px 0;
+}
+
+.mh-image-pair {
+    display: grid;
+    grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
+    gap: 22px;
+    margin-top: 32px;
+    align-items: start;
+}
+
+.mh-image-pair .mh-figure img {
+    max-height: 510px;
+}
+
+.mh-figure-wide {
+    margin: 30px 0;
+}
+
+/* 06 — Univers et résultats */
+.mh-world-layout {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+}
+
+.mh-world-map {
+    max-width: 490px;
+}
+
+.mh-world-map img {
+    max-height: 660px;
+}
+
+.mh-findings {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+    margin-top: 32px;
+}
+
+.mh-findings article > span {
+    color: var(--mh-accent);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+}
+
+.mh-next {
+    margin-top: 48px;
+    padding: 31px;
+    border: 1px solid var(--mh-border);
+    border-radius: 11px;
+    background: var(--mh-panel-strong);
+}
+
+.mh-next p:not(.mh-eyebrow) {
+    max-width: 780px;
+}
+
+.mh-next .mh-button {
+    margin-top: 9px;
+}
+
+.mh-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 29px 6%;
+    background: #000;
+    color: var(--mh-muted);
+    font-size: 0.81rem;
+}
+
+.mh-footer a:hover {
+    color: var(--mh-accent);
+}
+
+/* 07 — Responsive */
+@media (max-width: 950px) {
+    .mh-side-rail {
+        display: none;
+    }
+
+    .mh-feature-grid,
+    .mh-combat-sequence {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .mh-combat-sequence article::after {
+        display: none;
+    }
+
+    .mh-split {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .mh-world-map {
+        max-width: 620px;
+    }
+}
+
+@media (max-width: 650px) {
+    .mh-container {
+        width: calc(100% - 32px);
+    }
+
+    .mh-section {
+        padding: 59px 0;
+    }
+
+    .mh-landing {
+        padding-top: 40px;
+    }
+
+    .mh-page h1 {
+        font-size: clamp(2.75rem, 13vw, 4.1rem);
+    }
+
+    .mh-stats {
+        gap: 10px;
+    }
+
+    .mh-stats strong {
+        font-size: 2.25rem;
+    }
+
+    .mh-stats span,
+    .mh-stats small {
+        font-size: 0.75rem;
+    }
+
+    .mh-hunt-loop,
+    .mh-feature-grid,
+    .mh-feature-grid-two,
+    .mh-combat-sequence,
+    .mh-findings,
+    .mh-image-pair {
+        grid-template-columns: 1fr;
+    }
+
+    .mh-hunt-loop li {
+        min-height: auto;
+    }
+
+    .mh-actions .mh-button {
+        width: 100%;
+    }
+
+    .mh-insight,
+    .mh-next {
+        padding: 21px;
+    }
+
+    .mh-footer {
+        flex-direction: column;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mh-button {
+        transition: none;
+    }
+}
+
+/* 08 — Téléchargement de la documentation */
+.mh-download-panel {
+    display: grid;
+    grid-template-columns: 62px minmax(0, 1fr);
+    gap: 24px;
+    align-items: start;
+    padding: clamp(22px, 4vw, 40px);
+    border: 1px solid rgba(193, 165, 239, 0.32);
+    border-radius: 16px;
+    background: rgba(18, 15, 27, 0.80);
+}
+
+.mh-download-icon {
+    display: flex;
+    width: 62px;
+    height: 62px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 13px;
+    background: rgba(178, 140, 230, 0.15);
+    color: var(--mh-accent);
+}
+
+.mh-download-icon svg {
+    width: 30px;
+    height: 30px;
+}
+
+.mh-download-kicker {
+    margin: 0 0 9px;
+    color: var(--mh-accent);
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+}
+
+.mh-download-copy h3 {
+    margin: 0 0 12px;
+    font-size: clamp(1.4rem, 2.8vw, 2rem);
+}
+
+.mh-download-copy > p:not(.mh-download-kicker) {
+    max-width: 740px;
+    margin: 0 0 12px;
+    line-height: 1.7;
+}
+
+.mh-download-details {
+    opacity: 0.72;
+    font-size: 0.85rem;
+}
+
+.mh-download-button {
+    grid-column: 2;
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    text-align: center;
+}
+
+@media (max-width: 650px) {
+    .mh-download-panel {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .mh-download-button {
+        grid-column: 1;
+        width: 100%;
+        justify-content: center;
+    }
+}
