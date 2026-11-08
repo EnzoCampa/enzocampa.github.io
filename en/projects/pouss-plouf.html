@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#111116">
+        <title>Pouss’Plouf ! — Enzo Campanella</title>
+        <meta name="description" content="Pouss’Plouf ! party game overview covering gameplay, large-scale projection, my contribution, and results.">
+        <link rel="stylesheet" href="../../css/style.css">
+        <link rel="stylesheet" href="../../css/projects/pouss-plouf.css">
+        <script src="../../js/main.js" defer></script>
+    <link rel="alternate" hreflang="fr" href="../../projects/pouss-plouf.html">
+<link rel="alternate" hreflang="en" href="pouss-plouf.html">
+</head>
+    <body>
+        <a class="skip-link" href="#main-content">Skip to main content</a>
+        <header class="topbar pp-topbar">
+            <a class="wordmark" href="../index.html" aria-label="Back to home">EC<span>.</span></a>
+        <nav class="language-switch" aria-label="Language"><a href="../../projects/pouss-plouf.html" lang="fr" hreflang="fr" aria-label="Français">FR</a><a href="pouss-plouf.html" lang="en" hreflang="en" aria-label="English" aria-current="page">EN</a></nav>
+            <nav class="primary-navigation" id="primary-navigation" aria-label="Project navigation">
+                <a href="../index.html">Home</a>
+                <a href="vorace.html">Vorace</a>
+                <a href="pouss-plouf.html" aria-current="page">Pouss’Plouf !</a>
+                <a href="crpg.html">CRPG</a>
+                <a href="jdr-mh.html">Monster Hunter RPG</a>
+                <a href="procedural.html">Procedural</a>
+            </nav>
+            <button class="menu-button" type="button" aria-label="Open menu" aria-controls="primary-navigation" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </header>
+        <nav class="side-rail pp-side-rail" aria-label="Page sections">
+            <a class="rail-link" href="#presentation"><span class="rail-num">01</span><span class="rail-name">Overview</span></a>
+            <a class="rail-link" href="#contexte"><span class="rail-num">02</span><span class="rail-name">Context</span></a>
+            <a class="rail-link" href="#gameplay"><span class="rail-num">03</span><span class="rail-name">Gameplay</span></a>
+            <a class="rail-link" href="#contribution"><span class="rail-num">04</span><span class="rail-name">Contribution</span></a>
+            <a class="rail-link" href="#resultats"><span class="rail-num">05</span><span class="rail-name">Results</span></a>
+            <a class="rail-link" href="#galerie"><span class="rail-num">06</span><span class="rail-name">Gallery</span></a>
+        </nav>
+        <main id="main-content" class="pp-page">
+            <section id="presentation" class="pp-section pp-landing">
+                <div class="pp-container">
+                    <a class="pp-back" href="../index.html#projets">← Back to projects</a>
+                    <p class="eyebrow">GAMEPLAY PROGRAMMING / PARTY GAME / UNREAL ENGINE 5</p>
+                    <h1>Pouss’<em>Plouf !</em></h1>
+                    <p class="pp-lead">A competitive party game where four players in two teams share two controllers and try to push their opponents off an ice floe.</p>
+                    <div class="pp-key-stats">
+                        <div>
+                            <strong>2</strong>
+                            <span>Controllers</span>
+                            <small>One per team</small>
+                        </div>
+                        <div>
+                            <strong>4</strong>
+                            <span>Players</span>
+                            <small>Two teams of two</small>
+                        </div>
+                        <div>
+                            <strong>30 m+</strong>
+                            <span>Projection width</span>
+                            <small>Large-scale building façade</small>
+                        </div>
+                    </div>
+                    <div class="pp-tags">
+                        <span>Unreal Engine 5</span>
+                        <span>Blueprint</span>
+                        <span>Physics-Based Movement</span>
+                        <span>Local Multiplayer</span>
+                        <span>Actor Components</span>
+                    </div>
+                    <div class="pp-facts">
+                        <span><b>Role</b> Gameplay Programmer / Game Designer</span>
+                        <span><b>Production</b> 4 months</span>
+                        <span><b>Team</b> 6 developers + 14 artists</span>
+                    </div>
+                    <div class="pp-hero-actions">
+                        <a class="pp-button" href="#gameplay">Explore the gameplay ↘</a>
+                        <a class="pp-button pp-button-outline" href="pouss-plouf-technique.html">Read the technical breakdown ↗</a>
+                    </div>
+                    <figure class="pp-hero-video">
+                        <video src="../../projects/pouss-plouf/teaser/teaser.mp4" controls="" playsinline="" preload="metadata"></video>
+                        <figcaption>Project teaser</figcaption>
+                    </figure>
+                </div>
+            </section>
+            <section class="pp-section" id="contexte">
+                <div class="pp-container">
+                    <p class="eyebrow">02 / CONTEXT</p>
+                    <h2>A game designed for a real building façade.</h2>
+                    <p class="pp-intro">Pouss’Plouf ! was designed for Cœur de Ville en Lumières in Montpellier. The façade, over 30 metres wide, directly influenced the level design. Its nine windows became holes in the ice floe, and the central doorway informed obstacle placement and the match display.</p>
+                    <div class="pp-columns">
+                        <figure>
+                            <img src="../../projects/pouss-plouf/event/facade-avant.jpg" alt="Façade used for the projection" loading="lazy">
+                            <figcaption>The building and its architectural constraints</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="../../projects/pouss-plouf/gameplay/facade-vers-arene.png" alt="How the façade maps to the arena" loading="lazy">
+                            <figcaption>Adapting the level design to the building’s openings</figcaption>
+                        </figure>
+                    </div>
+                    <div class="pp-points">
+                        <article>
+                            <b>9 windows</b>
+                            <p>Openings built into the arena and activated at random</p>
+                        </article>
+                        <article>
+                            <b>5 holes at once</b>
+                            <p>The maximum reached as the match progresses</p>
+                        </article>
+                        <article>
+                            <b>3 minutes</b>
+                            <p>Short matches designed for a public event</p>
+                        </article>
+                    </div>
+                </div>
+            </section>
+            <section class="pp-section" id="gameplay">
+                <div class="pp-container">
+                    <p class="eyebrow">03 / GAMEPLAY</p>
+                    <h2>Slide, push, score.</h2>
+                    <p class="pp-intro">Two teams of two face off on an ice floe. Each team shares one controller to control two animals. The goal is to push opponents into openings in the arena and finish the three-minute match with the highest score.</p>
+                    <figure class="pp-wide-image">
+                        <img src="../../projects/pouss-plouf/gameplay/partie-en-cours.png" alt="Pouss’Plouf ! match with four characters" loading="lazy">
+                        <figcaption>Match in progress</figcaption>
+                    </figure>
+                    <div class="pp-points">
+                        <article>
+                            <b>Physics-based movement</b>
+                            <p>Sliding, momentum, acceleration, and steering</p>
+                        </article>
+                        <article>
+                            <b>Player collisions</b>
+                            <p>Push opponents into holes to score</p>
+                        </article>
+                        <article>
+                            <b>Dynamic arena</b>
+                            <p>Holes open and close throughout the match</p>
+                        </article>
+                    </div>
+                </div>
+            </section>
+            <section class="pp-section" id="contribution">
+                <div class="pp-container">
+                    <p class="eyebrow">04 / MY CONTRIBUTION</p>
+                    <h2>Building movement and character systems.</h2>
+                    <p class="pp-intro">I developed the movement system from its early velocity-based versions to a physics-based approach using <code>Add Force</code>. I also worked on rotation, respawning, temporary immunity, early collision prototypes, and several interface features.</p>
+                    <div class="pp-points">
+                        <article>
+                            <b>Movement System</b>
+                            <p>Interpolated direction, acceleration, force, and custom deceleration</p>
+                        </article>
+                        <article>
+                            <b>Respawn System</b>
+                            <p>Fall detection, queueing, spawn points, and immunity</p>
+                        </article>
+                        <article>
+                            <b>V1/V2 Collisions</b>
+                            <p>Push, vulnerability, and Buff Power prototypes using Gameplay Tags</p>
+                        </article>
+                        <article>
+                            <b>Blueprint Architecture</b>
+                            <p>Refactoring into Actor Components, Interfaces, and Dispatchers</p>
+                        </article>
+                    </div>
+                    <div class="pp-technical-cta">
+                        <div>
+                            <span class="eyebrow">TECHNICAL BREAKDOWN</span>
+                            <h3>Explore the Blueprints and architectural decisions.</h3>
+                            <p>The calculations, successive prototypes, annotated screenshots, and production documents have their own page.</p>
+                        </div>
+                        <a class="pp-button" href="pouss-plouf-technique.html">Explore my technical work ↗</a>
+                    </div>
+                </div>
+            </section>
+            <section class="pp-section" id="resultats">
+                <div class="pp-container">
+                    <p class="eyebrow">05 / FINDINGS AND LESSONS</p>
+                    <h2>Playtesters liked the movement. Collision fairness still needed work.</h2>
+                    <p class="pp-intro">Around six to seven playtest sessions informed the iterations. Testers were satisfied with the final movement feel. Collisions felt better, but fairness remained uneven. A slower character could sometimes push a faster opponent.</p>
+                    <div class="pp-results">
+                        <article>
+                            <strong>Result</strong>
+                            <h3>Movement feel</h3>
+                            <p>Adjustments to sliding, speed, and braking produced controls that testers liked.</p>
+                        </article>
+                        <article>
+                            <strong>Known limitation</strong>
+                            <h3>Impact consistency</h3>
+                            <p>Another developer corrected and completed the final collision system. The impacts felt satisfying, although some situations still felt unfair.</p>
+                        </article>
+                    </div>
+                </div>
+            </section>
+            <section class="pp-section" id="galerie">
+                <div class="pp-container">
+                    <p class="eyebrow">06 / GALLERY &amp; CREDITS</p>
+                    <h2>The project in pictures.</h2>
+                    <div class="pp-columns">
+                        <figure>
+                            <a href="../../projects/pouss-plouf/gameplay/facade-vers-arene.png" target="_blank" rel="noopener noreferrer">
+                                <img src="../../projects/pouss-plouf/gameplay/facade-vers-arene.png" alt="Arena and projection on the façade" loading="lazy">
+                            </a>
+                            <figcaption>Integrating the arena with the building</figcaption>
+                        </figure>
+                        <figure>
+                            <p>Team of 6 developers and 14 artists</p>
+                        </figure>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <footer class="pp-footer">
+            <span>© Enzo Campanella · Gameplay Programmer</span>
+            <a href="../index.html#projets">All projects ↑</a>
+        </footer>
+    </body>
+</html>

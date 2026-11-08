@@ -1244,3 +1244,37 @@ p {
         animation: none !important;
     }
 }
+
+/* Language links stay visible when the mobile navigation is collapsed. */
+.language-switch {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin-inline: clamp(0.75rem, 3vw, 2.5rem) auto;
+    font-size: 0.85rem;
+}
+
+.language-switch a {
+    display: grid;
+    place-items: center;
+    min-inline-size: 2.5rem;
+    min-block-size: 2.75rem;
+    color: var(--color-text-muted);
+}
+
+.language-switch a:hover,
+.language-switch a[aria-current="page"] {
+    color: var(--color-accent);
+}
+
+.language-switch a[aria-current="page"] {
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 0.3em;
+}
+
+.en-vorace-logo {
+    display: block;
+    width: min(100%, 34rem);
+    margin-block: 1.5rem;
+}

@@ -1,0 +1,83 @@
+/* =====================================================================
+   PROTOTYPE CRPG — PAGE GÉNÉRALE + ÉTUDE TECHNIQUE
+   Styles locaux. Le CSS global fournit le fond, les polices, les
+   composants .topbar / .side-rail / .footer et la navigation responsive.
+   ===================================================================== */
+:root {
+    --crpg-accent: var(--accent, #c5b2ea);
+    --crpg-text: var(--ivory, #f5f1e9);
+    --crpg-muted: var(--muted, #aaa5b7);
+    --crpg-line: var(--line, rgba(197,178,234,.18));
+    --crpg-panel: rgba(24,21,34,.85);
+    --crpg-max: 1120px;
+}
+.crpg-skip { position: absolute; top: -100px; left: 16px; z-index: 99; padding: 12px 18px; background: #211a33; color: white; }
+.crpg-skip:focus { top: 16px; }
+.crpg-page { overflow: clip; }
+.crpg-container { width: min(var(--crpg-max),calc(100% - 64px)); margin-inline: auto; }
+.crpg-section { padding: 88px 0; border-bottom: 1px solid var(--crpg-line); scroll-margin-top: 80px; }
+.crpg-hero { padding-top: 68px; }
+.crpg-page h1,.crpg-page h2,.crpg-page h3 { color: var(--crpg-text); line-height: 1.17; }
+.crpg-page h1 { font-size: clamp(3.3rem,7vw,6.6rem); letter-spacing:-.065em; margin: 18px 0 26px; }
+.crpg-page h1 em { font-style: normal; color: var(--crpg-accent); }
+.crpg-page h2 { font-size: clamp(2rem,4.2vw,3.35rem); letter-spacing:-.045em; max-width: 920px; margin: 13px 0 24px; }
+.crpg-page h3 { font-size: clamp(1.2rem,2vw,1.6rem); margin: 12px 0 12px; }
+.crpg-page p { color: var(--crpg-muted); line-height: 1.75; }
+.crpg-page .crpg-keyword { font-weight: 750; color: var(--crpg-accent); }
+.crpg-eyebrow { font-size:.72rem; letter-spacing:.15em; font-weight:800; color:var(--crpg-accent)!important; text-transform:uppercase; }
+.crpg-back { color:var(--crpg-muted); display:inline-block; margin-bottom:25px; font-size:.9rem; }
+.crpg-back:hover { color:var(--crpg-accent); }
+.crpg-lead { color:var(--crpg-text)!important; max-width:890px; font-size:clamp(1.25rem,2.3vw,1.68rem); font-weight:650; }
+.crpg-intro { max-width:890px; font-size:1.035rem; }
+.crpg-stats { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; padding:29px 0; border-block:1px solid var(--crpg-line); margin:36px 0 24px; }
+.crpg-stats>div { display:flex; flex-direction:column; gap:5px; }
+.crpg-stats strong { font:700 clamp(1.7rem,3.2vw,2.8rem) 'Space Grotesk',sans-serif; color:var(--crpg-text); }
+.crpg-stats span { color:var(--crpg-muted); font-size:.88rem; }
+.crpg-tags { display:flex; flex-wrap:wrap; gap:9px; margin:24px 0; }
+.crpg-tags span { color:#e9dcff; border:1px solid rgba(197,178,234,.4); background:rgba(100,66,155,.14); padding:7px 11px; border-radius:5px; font-size:.79rem; font-weight:650; }
+.crpg-actions { display:flex; gap:12px; flex-wrap:wrap; margin:25px 0 40px; }
+.crpg-button { display:inline-flex; align-items:center; justify-content:center; border-radius:6px; background:var(--crpg-accent); color:#171020!important; padding:13px 20px; text-decoration:none; font-weight:800; min-height:47px; transition:filter .2s,transform .2s; }
+.crpg-button:hover { filter:brightness(1.12); transform:translateY(-1px); }
+.crpg-button-outline { background:transparent; color:var(--crpg-text)!important; border:1px solid var(--crpg-accent); }
+.crpg-hero-media,.crpg-figure { margin:30px 0; min-width:0; }
+.crpg-hero-media img { width:100%; max-height:650px; object-fit:cover; aspect-ratio:16/9; border:1px solid var(--crpg-line); border-radius:10px; display:block; }
+.crpg-hero-media figcaption,.crpg-figure figcaption { font-size:.81rem; line-height:1.5; color:var(--crpg-muted); margin-top:10px; }
+.crpg-figure a { display:block; border:1px solid var(--crpg-line); background:rgba(13,12,19,.9); border-radius:9px; overflow:hidden; }
+.crpg-figure img { width:100%; height:auto; object-fit:contain; display:block; max-height:630px; }
+.crpg-figure a:hover { border-color:var(--crpg-accent); }
+.crpg-features { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; margin:35px 0; }
+.crpg-features-two { grid-template-columns:repeat(2,minmax(0,1fr)); }
+.crpg-features article,.crpg-compare article { padding:25px; border:1px solid var(--crpg-line); background:var(--crpg-panel); border-radius:9px; }
+.crpg-features article>span { font-size:.72rem; font-weight:800; color:var(--crpg-accent); letter-spacing:.12em; }
+.crpg-features p,.crpg-compare p { font-size:.93rem; margin-bottom:0; }
+.crpg-after { margin-top:28px; }
+.crpg-compare { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; margin:30px 0; }
+.crpg-image-stack { display:grid; gap:24px; }
+.crpg-image-stack .crpg-figure { margin: 14px 0; }
+.crpg-figures-small { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.crpg-page code { padding:2px 6px; border-radius:4px; color:#e0c8ff; background:rgba(76,53,117,.35); font-size:.91em; }
+.crpg-footnote { font-size:.88rem; max-width:900px; }
+.crpg-insight { border-left:3px solid var(--crpg-accent); margin:32px 0; padding:18px 24px; background:var(--crpg-panel); }
+.crpg-insight strong { color:var(--crpg-text); }
+.crpg-insight p { margin:8px 0 0; }
+.crpg-end { background:rgba(29,25,41,.92); border:1px solid var(--crpg-line); border-radius:10px; padding:30px; margin-top:35px; }
+.crpg-end p { max-width:760px; }
+.crpg-end .crpg-button { margin-top:10px; }
+/* Réduction des espacements et passage à une colonne sur petits écrans. */
+@media (max-width:850px) {
+    .crpg-features { grid-template-columns:1fr; }
+    .crpg-compare { grid-template-columns:1fr; }
+}
+@media (max-width:650px) {
+    .crpg-container { width:calc(100% - 38px); }
+    .crpg-section { padding:62px 0; }
+    .crpg-hero { padding-top:40px; }
+    .crpg-page h1 { font-size:clamp(3rem,13vw,4.4rem); }
+    .crpg-stats { gap:12px; }
+    .crpg-stats strong { font-size:1.43rem; }
+    .crpg-stats span { font-size:.75rem; }
+    .crpg-figures-small { grid-template-columns:1fr; }
+    .crpg-actions .crpg-button { width:100%; }
+    .crpg-features article,.crpg-compare article { padding:20px; }
+}
+@media (prefers-reduced-motion:reduce) { .crpg-button { transition:none; } }

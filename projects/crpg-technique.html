@@ -1,2 +1,208 @@
 <!DOCTYPE html>
-<html lang="fr"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/><meta content="#111116" name="theme-color"/><meta content="Portfolio de Gameplay Programming — Unreal Engine 5, Blueprint et intelligence artificielle." name="description"/><title>Prototype CRPG — Étude technique | Enzo Campanella</title><link href="../css/style.css" rel="stylesheet"/><script defer="" src="../js/main.js"></script></head><body><header class="topbar"><a aria-label="Accueil du portfolio" class="wordmark" href="../index.html">EC<span>.</span></a><button aria-controls="primary-navigation" aria-expanded="false" aria-label="Ouvrir la navigation" class="menu-button"><span></span><span></span><span></span></button><nav aria-label="Navigation principale" class="primary-navigation" id="primary-navigation"><a href="../index.html">Accueil</a><a href="../index.html#projets">Projets</a><a href="../about.html">À propos</a><a href="../index.html#contact">Contact</a></nav></header><nav aria-label="Navigation entre les projets" class="side-rail project-rail"><a class="rail-link" href="../index.html#projets"><span class="rail-num">←</span><span class="rail-name">Projets</span></a><a class="rail-link" href="pouss-plouf.html" title="Pouss’Plouf !"><span class="rail-num">01</span><span class="rail-name">Pouss’Plouf !</span></a><a class="rail-link" href="vorace.html" title="Vorace"><span class="rail-num">02</span><span class="rail-name">Vorace</span></a><a class="rail-link is-current" href="crpg.html" title="Prototype CRPG"><span class="rail-num">03</span><span class="rail-name">Prototype CRPG</span></a><a class="rail-link" href="procedural.html" title="Prototype procédural"><span class="rail-num">04</span><span class="rail-name">Prototype procédural</span></a><a class="rail-link" href="jdr-mh.html" title="Monster Hunter — JDR"><span class="rail-num">05</span><span class="rail-name">Monster Hunter — JDR</span></a></nav><main id="main-content"><section class="interior-hero section-wrap"><a class="backlink" href="crpg.html">← Présentation du projet</a><p class="eyebrow">ÉTUDE TECHNIQUE / Prototype CRPG</p><h1>Concevoir le <em>système.</em></h1><p class="page-lead">Analyse des problèmes, des décisions d’architecture et des limites rencontrées. Les captures de Blueprints pourront être ajoutées à chaque section.</p><div class="tags"><span class="tag">Click-to-Move</span><span class="tag">NavMesh</span><span class="tag">Splines</span><span class="tag">Camera Systems</span></div><nav aria-label="Pages du projet" class="project-tabs"><a href="crpg.html">Présentation</a><a aria-current="page" href="crpg-technique.html">Étude technique</a></nav></section><section class="section-wrap tech-sections"><article class="tech-block"><p class="eyebrow">01 / INTERACTION</p><h2>Déplacement au clic</h2><p>L’objectif est de traduire une destination sélectionnée par le joueur en déplacement du personnage.</p></article><article class="tech-block"><p class="eyebrow">02 / NAVIGATION</p><h2>NavMesh et Splines</h2><p>La navigation repose sur un maillage navigable ; les Splines servent à représenter la trajectoire envisagée.</p></article><article class="tech-block"><p class="eyebrow">03 / CAMÉRA</p><h2>Deux perspectives</h2><p>Le prototype explore les implications du passage entre une caméra top-down et une vue troisième personne.</p></article></section><section class="section-wrap reflection-section"><p class="eyebrow">DOCUMENTATION VISUELLE</p><h2>Blueprints et schémas</h2><p>Emplacements prévus pour les captures, schémas d’architecture et explications détaillées. Aucun extrait de code n’a été inventé.</p><div class="blueprint-placeholder">CAPTURES BLUEPRINT À INTÉGRER</div></section></main><footer class="footer"><span>© Enzo Campanella · Gameplay Programmer</span><a href="../index.html">Retour à l’accueil ↑</a></footer></body></html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#111116">
+    <meta name="description" content="Étude technique du prototype CRPG sous Unreal Engine : NavMesh, Splines, AI MoveTo et caméra BP_Camera.">
+    <title>Prototype CRPG — Étude technique | Enzo Campanella</title>
+    <!-- Le style global et le JS sont conservés : mêmes fichiers que les autres projets. -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/projects/crpg.css">
+    <script src="../js/main.js" defer></script>
+<link rel="alternate" hreflang="fr" href="../projects/crpg-technique.html">
+<link rel="alternate" hreflang="en" href="../en/projects/crpg-technique.html">
+</head>
+<body>
+    <a class="crpg-skip" href="#main-content">Aller au contenu</a>
+    <header class="topbar">
+    <a class="wordmark" href="../index.html" aria-label="Retour à l'accueil">EC<span>.</span></a>
+        <nav class="language-switch" aria-label="Langue"><a href="../projects/crpg-technique.html" lang="fr" hreflang="fr" aria-label="Français" aria-current="page">FR</a><a href="../en/projects/crpg-technique.html" lang="en" hreflang="en" aria-label="English">EN</a></nav>
+    <nav class="primary-navigation" id="primary-navigation" aria-label="Navigation des projets">
+        <a href="../index.html">Accueil</a>
+        <a href="vorace.html">Vorace</a>
+        <a href="pouss-plouf.html">Pouss’Plouf !</a>
+        <a href="crpg.html" aria-current="page">CRPG</a>
+        <a href="jdr-mh.html">JDR Monster Hunter</a>
+        <a href="procedural.html">Procédural</a>
+    </nav>
+    <button class="menu-button" type="button" aria-label="Ouvrir le menu" aria-controls="primary-navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+    </button>
+</header>
+    <nav class="side-rail" aria-label="Sections de la page">
+    <a class="rail-link" data-section="introduction" href="#introduction"><span class="rail-num">01</span><span class="rail-name">Introduction</span></a>
+    <a class="rail-link" data-section="architecture" href="#architecture"><span class="rail-num">02</span><span class="rail-name">Architecture</span></a>
+    <a class="rail-link" data-section="navmesh" href="#navmesh"><span class="rail-num">03</span><span class="rail-name">Navigation</span></a>
+    <a class="rail-link" data-section="spline" href="#spline"><span class="rail-num">04</span><span class="rail-name">Splines</span></a>
+    <a class="rail-link" data-section="mouvement" href="#mouvement"><span class="rail-num">05</span><span class="rail-name">Déplacement</span></a>
+    <a class="rail-link" data-section="camera" href="#camera"><span class="rail-num">06</span><span class="rail-name">Caméra</span></a>
+    <a class="rail-link" data-section="secondaires" href="#secondaires"><span class="rail-num">07</span><span class="rail-name">Systèmes</span></a>
+    <a class="rail-link" data-section="retour" href="#retour"><span class="rail-num">08</span><span class="rail-name">Bilan</span></a>
+</nav>
+    <main class="crpg-page" id="main-content">
+        <section class="crpg-section crpg-hero crpg-tech-hero" id="introduction">
+            <div class="crpg-container">
+                <a class="crpg-back" href="crpg.html">← Retour à la présentation</a>
+                <p class="crpg-eyebrow">ÉTUDE TECHNIQUE / UNREAL ENGINE 5 / BLUEPRINTS</p>
+                <h1>Construire le <em>déplacement.</em></h1>
+                <p class="crpg-lead">Calculer une trajectoire, la reconstruire avec des Splines, guider le personnage et contrôler une caméra indépendante.</p>
+                <p class="crpg-intro">Cette page documente l'implémentation actuelle du prototype. Elle s'appuie sur mes véritables captures Blueprint, sans détailler les anciennes versions.</p>
+                <div class="crpg-tags"><span>Find Path to Location Synchronously</span><span>Spline Component</span><span>AI MoveTo</span><span>BP_Camera</span></div>
+                <div class="crpg-actions"><a class="crpg-button crpg-button-outline" href="crpg.html">Présentation du projet →</a><a class="crpg-button" href="#architecture">Explorer les Blueprints ↓</a></div>
+            </div>
+        </section>
+        <!-- 02. Deux responsabilités principales, deux Blueprints. -->
+        <section class="crpg-section" id="architecture">
+            <div class="crpg-container">
+                <p class="crpg-eyebrow">02 / STRUCTURE</p>
+                <h2>Deux responsabilités principales, deux Blueprints.</h2>
+                <p class="crpg-intro">La navigation et le déplacement sont centralisés dans le <strong class="crpg-keyword">Character Blueprint</strong>. Le fonctionnement de la caméra est organisé dans <strong class="crpg-keyword">BP_Camera</strong>, avec ses propres composants et événements.</p>
+                <div class="crpg-compare">
+                    <article><h3>Character Blueprint</h3><p>Destination au clic, calcul du chemin, Splines, points de passage et déplacement.</p></article>
+                    <article><h3>BP_Camera</h3><p>Déplacement libre, verrouillage, recentrage, rotation, hauteur, zoom et perspectives.</p></article>
+                </div>
+                <figure class="crpg-figure">
+        <a href="crpg/camera-composants.png" target="_blank" rel="noopener noreferrer" aria-label="Agrandir : Composants du Blueprint caméra, avec orthographique, perspective, SpringArm et caméra">
+            <img src="crpg/camera-composants.png" alt="Composants du Blueprint caméra, avec orthographique, perspective, SpringArm et caméra" loading="lazy">
+        </a>
+        <figcaption>Arborescence de BP_Camera.</figcaption>
+    </figure>
+            </div>
+        </section>
+        <!-- 03. Du clic aux points de navigation. -->
+        <section class="crpg-section" id="navmesh">
+            <div class="crpg-container">
+                <p class="crpg-eyebrow">03 / CALCUL DU CHEMIN</p>
+                <h2>Du clic aux points de navigation.</h2>
+                <p class="crpg-intro">Après récupération de la position cible, <code>Find Path to Location Synchronously</code> calcule un chemin utilisable sur la <strong class="crpg-keyword">NavMesh</strong>. Les <code>Path Points</code> du résultat servent de base à la construction de la Spline.</p>
+                <figure class="crpg-figure crpg-wide">
+        <a href="crpg/navmesh-blueprint.png" target="_blank" rel="noopener noreferrer" aria-label="Agrandir : Blueprint : Find Path to Location Synchronously puis extraction des Path Points et ajout dans la Spline">
+            <img src="crpg/navmesh-blueprint.png" alt="Blueprint : Find Path to Location Synchronously puis extraction des Path Points et ajout dans la Spline" loading="lazy">
+        </a>
+        <figcaption>Calcul du chemin NavMesh, récupération des points et création de la trajectoire dans le Spline Component.</figcaption>
+    </figure>
+            </div>
+        </section>
+        <!-- 04. Reconstruction et échantillonnage tous les 50 cm. -->
+        <section class="crpg-section" id="spline">
+            <div class="crpg-container">
+                <p class="crpg-eyebrow">04 / TRAJECTOIRE</p>
+                <h2>Reconstruction et échantillonnage tous les 50 cm.</h2>
+                <p class="crpg-intro">Les points issus de la NavMesh alimentent une première Spline. J'en récupère ensuite les positions à intervalle de <strong class="crpg-keyword">50 cm</strong> avec <code>Get Location at Distance Along Spline</code>, puis je reconstruis la trajectoire à partir des positions échantillonnées.</p>
+                <div class="crpg-compare"><article><h3>Pourquoi ajouter des points ?</h3><p>Des points trop espacés donnent un tracé anguleux, contraire à la courbure recherchée.</p></article><article><h3>Pourquoi limiter leur nombre ?</h3><p>Un échantillonnage trop dense provoquait des ralentissements. L'intervalle de 50 cm est un compromis retenu sur ce prototype, sans prétendre qu'il soit optimal dans tous les cas.</p></article></div>
+                <div class="crpg-image-stack">
+                    <figure class="crpg-figure crpg-wide">
+        <a href="crpg/echantillonnage-spline.png" target="_blank" rel="noopener noreferrer" aria-label="Agrandir : Blueprint : longueur de la Spline, division par StepCm, boucle d échantillonnage">
+            <img src="crpg/echantillonnage-spline.png" alt="Blueprint : longueur de la Spline, division par StepCm, boucle d échantillonnage" loading="lazy">
+        </a>
+        <figcaption>Mesure de la longueur de la Spline et calcul du nombre de points à échantillonner.</figcaption>
+    </figure>
+                    <figure class="crpg-figure crpg-wide">
+        <a href="crpg/reconstruction-spline.png" target="_blank" rel="noopener noreferrer" aria-label="Agrandir : Blueprint : reconstruction des points de la Spline et configuration de leurs types">
+            <img src="crpg/reconstruction-spline.png" alt="Blueprint : reconstruction des points de la Spline et configuration de leurs types" loading="lazy">
+        </a>
+        <figcaption>Échantillonnage des positions, reconstruction de la Spline et traitement des points.</figcaption>
+    </figure>
+                </div>
+                <p class="crpg-footnote">Les Splines interpolent des courbes, mais ne garantissent pas à elles seules que chaque position interpolée reste navigable. Ce point reste une contrainte générale de l'approche.</p>
+            </div>
+        </section>
+        <!-- 05. Guider le personnage à partir de la trajectoire. -->
+        <section class="crpg-section" id="mouvement">
+            <div class="crpg-container">
+                <p class="crpg-eyebrow">05 / EXECUTION</p>
+                <h2>Guider le personnage à partir de la trajectoire.</h2>
+                <p class="crpg-intro">Le système exploite le tableau des positions échantillonnées pour guider le personnage avec <code>AI MoveTo</code>. Des calculs d'orientation utilisent également <code>Find Look at Rotation</code>. Dans le prototype testé, le personnage suit correctement la courbe produite.</p>
+                <figure class="crpg-figure crpg-wide">
+        <a href="crpg/deplacement-ai-moveto.png" target="_blank" rel="noopener noreferrer" aria-label="Agrandir : Blueprint : récupération du tableau de points, orientation et AI MoveTo">
+            <img src="crpg/deplacement-ai-moveto.png" alt="Blueprint : récupération du tableau de points, orientation et AI MoveTo" loading="lazy">
+        </a>
+        <figcaption>Extrait du Blueprint de déplacement utilisant les points de passage et AI MoveTo.</figcaption>
+    </figure>
+                <div class="crpg-insight"><strong>Précision technique</strong><p>Sur cette capture, <code>For Each Loop</code> ne se synchronise pas automatiquement avec la fin d'un <code>AI MoveTo</code> latent. Le code visible ne suffit donc pas à établir l'ordre exact de validation de chaque point. Je présente le résultat observé, sans inventer une séquence asynchrone absente des captures.</p></div>
+                <figure class="crpg-figure crpg-wide">
+        <a href="crpg/terrain-interface.png" target="_blank" rel="noopener noreferrer" aria-label="Agrandir : Blueprint : Line Trace et test Does Object Implement Interface sur le sol">
+            <img src="crpg/terrain-interface.png" alt="Blueprint : Line Trace et test Does Object Implement Interface sur le sol" loading="lazy">
+        </a>
+        <figcaption>Vérification du terrain par Line Trace et interface Blueprint.</figcaption>
+    </figure>
+            </div>
+        </section>
+        <!-- 06. Un système de caméra indépendant. -->
+        <section class="crpg-section" id="camera">
+            <div class="crpg-container">
+                <p class="crpg-eyebrow">06 / BP_CAMERA</p>
+                <h2>Un système de caméra indépendant.</h2>
+                <p class="crpg-intro">Le contrôle ZQSD déplace <strong class="crpg-keyword">BP_Camera</strong> indépendamment du personnage. Un état de verrouillage permet de suivre le Character, avec interpolation de position via <code>VInterp To</code>. Le recentrage réactive ce suivi.</p>
+                <p>Le système gère aussi la rotation, le zoom avec un paramètre normalisé, une transformation pilotée par des Splines, les modes orthographique et perspective, et une hauteur de caméra calculée à l'aide d'un <code>Line Trace</code>.</p>
+                <div class="crpg-image-stack">
+                    <figure class="crpg-figure crpg-wide">
+        <a href="crpg/camera-deplacement-suivi.png" target="_blank" rel="noopener noreferrer" aria-label="Agrandir : Blueprint : mouvement ZQSD et suivi du personnage avec VInterp To">
+            <img src="crpg/camera-deplacement-suivi.png" alt="Blueprint : mouvement ZQSD et suivi du personnage avec VInterp To" loading="lazy">
+        </a>
+        <figcaption>Déplacement libre, état de verrouillage et interpolation du suivi.</figcaption>
+    </figure>
+                    <figure class="crpg-figure crpg-wide">
+        <a href="crpg/camera-rotation-zoom.png" target="_blank" rel="noopener noreferrer" aria-label="Agrandir : Blueprint : rotation et ZoomCamera avec Clamp et Set Camera Transform Along Spline">
+            <img src="crpg/camera-rotation-zoom.png" alt="Blueprint : rotation et ZoomCamera avec Clamp et Set Camera Transform Along Spline" loading="lazy">
+        </a>
+        <figcaption>Gestion de la rotation, du zoom et de la transformation le long des Splines.</figcaption>
+    </figure>
+                    <figure class="crpg-figure crpg-wide">
+        <a href="crpg/camera-perspectives.png" target="_blank" rel="noopener noreferrer" aria-label="Agrandir : Blueprint : ToggleOrthographicCamera et Set Camera Transform Along Spline">
+            <img src="crpg/camera-perspectives.png" alt="Blueprint : ToggleOrthographicCamera et Set Camera Transform Along Spline" loading="lazy">
+        </a>
+        <figcaption>Bascule entre les perspectives via un état booléen.</figcaption>
+    </figure>
+                    <figure class="crpg-figure crpg-wide">
+        <a href="crpg/camera-hauteur.png" target="_blank" rel="noopener noreferrer" aria-label="Agrandir : Blueprint : SetCameraHeight avec Line Trace et hauteur calculée">
+            <img src="crpg/camera-hauteur.png" alt="Blueprint : SetCameraHeight avec Line Trace et hauteur calculée" loading="lazy">
+        </a>
+        <figcaption>Ajustement de la hauteur de caméra par détection du sol.</figcaption>
+    </figure>
+                </div>
+                <div class="crpg-figures-small">
+                    <figure class="crpg-figure">
+        <a href="crpg/camera-rotation-conditionnelle.png" target="_blank" rel="noopener noreferrer" aria-label="Agrandir : Blueprint : AllowCameraRotation, commande de rotation conditionnelle">
+            <img src="crpg/camera-rotation-conditionnelle.png" alt="Blueprint : AllowCameraRotation, commande de rotation conditionnelle" loading="lazy">
+        </a>
+        <figcaption>Activation conditionnelle de la rotation.</figcaption>
+    </figure>
+                    <figure class="crpg-figure">
+        <a href="crpg/camera-lock.png" target="_blank" rel="noopener noreferrer" aria-label="Agrandir : Blueprint : LockCameraToCharacter, activation du suivi">
+            <img src="crpg/camera-lock.png" alt="Blueprint : LockCameraToCharacter, activation du suivi" loading="lazy">
+        </a>
+        <figcaption>Activation de l'état de suivi du personnage.</figcaption>
+    </figure>
+                </div>
+            </div>
+        </section>
+        <!-- 07. Interactions, inventaire et crafting basique. -->
+        <section class="crpg-section" id="secondaires">
+            <div class="crpg-container">
+                <p class="crpg-eyebrow">07 / EXPERIMENTATIONS</p>
+                <h2>Interactions, inventaire et crafting basique.</h2>
+                <p class="crpg-intro">Le prototype comprend des interactions au clic, la collecte de ressources, leur affichage dans un inventaire et une fabrication simple à partir de ces ressources. Ces systèmes ont servi à expérimenter d'autres fondations de gameplay, sans constituer un RPG complet.</p>
+                <figure class="crpg-figure">
+        <a href="crpg/dossiers-blueprints.png" target="_blank" rel="noopener noreferrer" aria-label="Agrandir : Dossiers du projet sous Unreal, avec Inventory, Crafting, Nav et Character">
+            <img src="crpg/dossiers-blueprints.png" alt="Dossiers du projet sous Unreal, avec Inventory, Crafting, Nav et Character" loading="lazy">
+        </a>
+        <figcaption>Organisation des dossiers de Blueprints liés aux différents systèmes expérimentés.</figcaption>
+    </figure>
+            </div>
+        </section>
+        <!-- 08. Ce que je ferais différemment aujourd’hui. -->
+        <section class="crpg-section" id="retour">
+            <div class="crpg-container">
+                <p class="crpg-eyebrow">08 / RETOUR TECHNIQUE</p>
+                <h2>Ce que je ferais différemment aujourd’hui.</h2>
+                <p class="crpg-intro">Le déplacement et la caméra fonctionnent dans le périmètre testé. La difficulté principale a été de construire une courbe lisible avec un échantillonnage suffisamment fin tout en préservant les performances.</p>
+                <p class="crpg-intro">La logique de déplacement reste fortement centralisée dans le Character Blueprint. Avec mes connaissances actuelles, je privilégierais une <strong class="crpg-keyword">séparation plus claire des responsabilités</strong> et des composants réutilisables. Ce constat relève de mon recul technique ; il ne faut pas présenter cette organisation initiale comme un choix architectural intentionnel.</p>
+                <div class="crpg-end"><h3>Retour au projet CRPG</h3><p>Retrouver la présentation générale, les fonctionnalités et les limites du prototype.</p><a class="crpg-button" href="crpg.html">Revenir à la présentation →</a></div>
+            </div>
+        </section>
+    </main>
+    <footer class="footer"><span>© Enzo Campanella · Gameplay Programmer</span><a href="../index.html">Retour à l'accueil ↑</a></footer>
+</body>
+</html>

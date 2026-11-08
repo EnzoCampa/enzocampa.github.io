@@ -79,7 +79,9 @@ function initMobileNavigation() {
 
         menuButton.setAttribute(
             "aria-label",
-            isOpen ? "Fermer le menu" : "Ouvrir le menu"
+            document.documentElement.lang === "en"
+                ? (isOpen ? "Close menu" : "Open menu")
+                : (isOpen ? "Fermer le menu" : "Ouvrir le menu")
         );
     }
 
@@ -363,3 +365,12 @@ if (document.readyState === "loading") {
 } else {
     initPortfolio();
 }
+
+// Keep the selected section when the counterpart shares its anchor.
+document.querySelector(".language-switch")?.addEventListener("click", (event) => {
+    const link = event.target.closest("a[hreflang]");
+    if (!link || link.hasAttribute("aria-current")) return;
+    const destination = new URL(link.href);
+    destination.hash = location.hash;
+    link.href = destination.href;
+});
